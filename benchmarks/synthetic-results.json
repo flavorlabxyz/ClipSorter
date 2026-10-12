@@ -1,0 +1,203 @@
+{
+  "schema": 1,
+  "created_at": "2026-10-12T14:17:15.925493+00:00",
+  "dataset": "Synthetic multistage and similar-bowl stress fixture",
+  "synthetic": true,
+  "manifest_sha256": "1fb1fb6497c7dcf262014cc897e0547a238c1b8e46017f5a9b91c6ec9bb73c1d",
+  "scorers": {
+    "v1_complete_link": "threads-v3",
+    "example_bank": "example-bank-v1"
+  },
+  "numpy_version": "2.3.5",
+  "target_precision": 0.95,
+  "scope": "Cached frame scoring only; decode/model extraction measurements are separate",
+  "split_counts": {
+    "example": 4,
+    "calibration": 7,
+    "evaluation": 7
+  },
+  "preparation": null,
+  "results": [
+    {
+      "backend": "features",
+      "method": "v1_complete_link",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "scoring_seconds": 0.01626080300002286,
+      "peak_python_allocated_bytes": 28928,
+      "process_peak_rss_kib": 29104,
+      "embedding_array_bytes": 1152,
+      "profile": null,
+      "calibration": null
+    },
+    {
+      "backend": "features",
+      "method": "example_bank",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "scoring_seconds": 0.020210441000017454,
+      "peak_python_allocated_bytes": 22621,
+      "process_peak_rss_kib": 29104,
+      "embedding_array_bytes": 1152,
+      "profile": {
+        "threshold": 0.96,
+        "margin": 0.12,
+        "frame_floor": 0.86,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "used": true,
+        "target_precision": 0.95,
+        "calibration_metrics": {
+          "pairwise_precision": 1.0,
+          "pairwise_recall": 1.0,
+          "uncertain_fraction": 0.14285714285714285,
+          "suggested_match_accuracy": 1.0,
+          "top_ranked_accuracy": 0.8571428571428571,
+          "assigned_clips": 6,
+          "evaluated_clips": 7,
+          "true_positive_pairs": 6,
+          "false_positive_pairs": 0,
+          "missed_pairs": 0
+        }
+      }
+    },
+    {
+      "backend": "clip",
+      "method": "v1_complete_link",
+      "pairwise_precision": 0.0,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 1,
+      "missed_pairs": 6,
+      "scoring_seconds": 0.015902326999821526,
+      "peak_python_allocated_bytes": 28024,
+      "process_peak_rss_kib": 29104,
+      "embedding_array_bytes": 1152,
+      "profile": null,
+      "calibration": null
+    },
+    {
+      "backend": "clip",
+      "method": "example_bank",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 0.3333333333333333,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.5714285714285714,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 2,
+      "false_positive_pairs": 0,
+      "missed_pairs": 4,
+      "scoring_seconds": 0.011925402999850121,
+      "peak_python_allocated_bytes": 21076,
+      "process_peak_rss_kib": 29104,
+      "embedding_array_bytes": 1152,
+      "profile": {
+        "threshold": 0.96,
+        "margin": 0.12,
+        "frame_floor": 0.74,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "used": true,
+        "target_precision": 0.95,
+        "calibration_metrics": {
+          "pairwise_precision": 1.0,
+          "pairwise_recall": 0.3333333333333333,
+          "uncertain_fraction": 0.42857142857142855,
+          "suggested_match_accuracy": 1.0,
+          "top_ranked_accuracy": 0.5714285714285714,
+          "assigned_clips": 4,
+          "evaluated_clips": 7,
+          "true_positive_pairs": 2,
+          "false_positive_pairs": 0,
+          "missed_pairs": 4
+        }
+      }
+    },
+    {
+      "backend": "hybrid",
+      "method": "v1_complete_link",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.7142857142857143,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 2,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "scoring_seconds": 0.018927120999933322,
+      "peak_python_allocated_bytes": 32672,
+      "process_peak_rss_kib": 29104,
+      "embedding_array_bytes": 2304,
+      "profile": null,
+      "calibration": null
+    },
+    {
+      "backend": "hybrid",
+      "method": "example_bank",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 0.3333333333333333,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 2,
+      "false_positive_pairs": 0,
+      "missed_pairs": 4,
+      "scoring_seconds": 0.031959709999910046,
+      "peak_python_allocated_bytes": 22596,
+      "process_peak_rss_kib": 29104,
+      "embedding_array_bytes": 2304,
+      "profile": {
+        "threshold": 0.96,
+        "margin": 0.12,
+        "frame_floor": 0.76,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "used": true,
+        "target_precision": 0.95,
+        "calibration_metrics": {
+          "pairwise_precision": 1.0,
+          "pairwise_recall": 0.3333333333333333,
+          "uncertain_fraction": 0.42857142857142855,
+          "suggested_match_accuracy": 1.0,
+          "top_ranked_accuracy": 0.8571428571428571,
+          "assigned_clips": 4,
+          "evaluated_clips": 7,
+          "true_positive_pairs": 2,
+          "false_positive_pairs": 0,
+          "missed_pairs": 4
+        }
+      }
+    }
+  ],
+  "skipped": []
+}
