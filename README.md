@@ -1,12 +1,12 @@
-# Recipe Clip Sorter V1.5
+# Recipe Clip Sorter V1.6
 
 A local, source-safe workbench for finding recipe threads in mixed raw footage. Discover clips, compare multiple frames, review suggested groups, preview clips, and save your own organization. Python + FastAPI, SQLite, plain browser UI. Designed for one Fedora Linux workstation; no Docker, cloud AI service, or paid API.
 
-**V1.5 does not identify recipes.** It suggests which clips look related. An explicit **Uncertain** group holds clips without a sufficiently clear match. Your manual decisions always take precedence.
+**V1.6 does not identify recipes.** It suggests which clips look related. An explicit **Uncertain** group holds clips without a sufficiently clear match. Your manual decisions always take precedence.
 
-**BRAW implementation status:** a native bridge to the official Blackmagic RAW Linux SDK is included as source. The SDK and real BRAW footage were unavailable during development. **The bridge has not been compiled against the SDK or validated on real BRAW footage on Fedora.** Its presence, mock tests, and demo thumbnails do not establish working BRAW integration. Follow the acceptance procedure below before relying on it.
+**BRAW status:** the user reports V1.5 works on Fedora with their BRAW footage. V1.6 preserves the official-SDK bridge unchanged. The SDK and real footage are unavailable in this development environment, so this release has not independently revalidated decoding, color, playback or source integrity on Fedora. Run the documented BRAW acceptance procedure on your workstation.
 
-## What works in V1.5
+## Features
 
 - Recursive or top-level discovery of `.braw`, `.mov`, `.mp4`, `.m4v`, `.mkv`, `.avi`, `.mts`, `.mxf`, and `.webm`.
 - Metadata normalization, source fingerprints, incremental frame/embedding caching, individual failure states, background progress, and persistent SQLite organization.
@@ -21,9 +21,11 @@ A local, source-safe workbench for finding recipe threads in mixed raw footage. 
 
 Not included: recipe naming, transcription, ingredient/action recognition, temporal food-state reasoning, editing timelines, exporting/copying media, physical sorting, cloud analysis, collaborative access, or training on your corrections.
 
-## Upgrading from V1
+## Upgrading to V1.6
 
-Stop the old server, keep your existing application data directory, and install this version with `python -m pip install -e '.[test]'`. Launch with the same `--data-dir`. Schema 2 is applied automatically and a SQLite backup is created at `library.pre-v1.5.sqlite3` inside that data directory. Manual groups, corrections, and proposals are preserved. Do not open the upgraded database with V1. See [UPGRADE.md](UPGRADE.md) for interactions, API/storage changes, and undo behavior; [EVALUATION.md](EVALUATION.md) for the CLIP audit, benchmark commands, measured synthetic results, and limitations.
+See [V1_6.md](V1_6.md) for exact upgrade/rollback instructions and the sorting walkthrough. Stop the old server before installation. Schema 3 preserves assignments and caches and creates `library.pre-v1.6.sqlite3` before migration. Do not open schema 3 with an older app.
+
+V1.6 adds dedicated drag handles/count previews/edge scrolling, atomic **Reset sorting…** with backup and safe restore, confirmed full-library empty-group cleanup, analysis summaries, independent benchmark truth, and selectable experimental guarded average-link grouping and balanced prototype matching. V1.5 algorithms remain the defaults. [V1_6_EVALUATION.md](V1_6_EVALUATION.md) reports measured synthetic results and limitations; [VALIDATION.md](VALIDATION.md) lists executed and blocked checks. [UPGRADE.md](UPGRADE.md) remains the historical V1.5 guide.
 
 ## Fedora installation
 
@@ -79,7 +81,7 @@ Analysis uses `local_files_only=True` and does not download models or send image
 3. Click **Analyze clips**, select the visual backend, and start analysis. The worker processes one clip at a time and reports per-file problems. Continue reviewing other clips while it runs.
 4. Review suggested recipe threads. Click the small bars on a card to switch sampled frames, or open the clip for all samples, metadata, group controls, and proposal evidence.
 5. Generate a proxy on demand. The complete clip is available as a reduced-resolution **silent** preview. BRAW playback targets 6 fps; conventional playback targets 12 fps. Long clips can take time. Playback appears when the job finishes.
-6. In **Sorting workspace**, review Uncertain beside the recipe groups. Select cards, then drag one selected card onto a sidebar group or workspace group. Dragging an unselected card moves only that card. Alternatively use the bottom **Move** bar or the clip dialog. **Undo move** / Ctrl+Z restores the preceding manual state, including after restarting.
+6. In **Sorting workspace**, review Uncertain beside the recipe groups. Select cards, then drag the Move handle on one selected card onto a sidebar group or workspace group. Dragging an unselected card moves only that card. Alternatively use the bottom **Move** bar or the clip dialog. **Undo move** / Ctrl+Z restores the preceding manual state, including after restarting.
 7. Manually place a few examples from different stages into a recipe group. Click **Find matches**, choose the examples and backend, and review the ranked candidates. Accept moves a clip into the group; reject records a negative example; skip keeps it available for later review. No suggestion moves footage until you accept it.
 8. Create or rename groups, move clips to Uncertain, and delete only empty virtual groups.
 9. **Every mutation is saved immediately in SQLite.** There is no unsaved batch that requires a global Save button. Reopen with the same data directory to retain results and corrections.
@@ -197,7 +199,7 @@ Back up the SQLite database if corrections are important. Stop the app before co
 
 Fingerprints combine canonical path, size, and nanosecond mtime. Unchanged clips with matching sampling/model versions reuse frames and embeddings. A model/version change reuses existing sampled JPEGs and regenerates only stale embeddings. CLIP and visual features coexist in separate cache records. Changing the sampling strategy or **Rebuild cached analysis** regenerates frames and their embeddings. Pairwise grouping is recalculated on Analyze and receives its own run version. Fingerprints are efficient, not cryptographic content identities; changes preserving both size and mtime require forced analysis. The acceptance workflow uses full SHA-256.
 
-Schema management uses SQLite `PRAGMA user_version`; V1.5 installs schema 2, enables foreign keys and WAL, backs up an existing schema-1 database before migration, and refuses an unknown newer schema. Separate tables retain per-backend embeddings, atomic moves/undo, frozen recommendation runs, and append-only review decisions. A process lock prevents concurrent CLI/server analysis in a library. Interrupted clips are marked failed at the next server/CLI startup and can be retried.
+Schema management uses SQLite `PRAGMA user_version`; V1.6 installs schema 3, enables foreign keys and WAL, backs up older databases before migration, and refuses an unknown newer schema. Separate tables retain per-backend embeddings, atomic moves/undo, frozen recommendation runs, and append-only review decisions. A process lock prevents concurrent CLI/server analysis in a library. Interrupted clips are marked failed at the next server/CLI startup and can be retried.
 
 Deleted virtual groups are tombstoned so historical proposal/correction references remain valid. A correction stores the original current proposal, previous manual assignment, chosen group, confidence/evidence, proposal ID, source fingerprint, and timestamp. Re-analysis creates new proposals without replacing correction history or manual assignments.
 
@@ -232,7 +234,7 @@ The UI needs no frontend build, npm packages, CDN assets, or external fonts. The
 python -m pip install -e '.[test]'
 python -m unittest discover -s tests -v
 recipe-sorter diagnostics
-node tests/frontend.test.cjs                 # 10 interaction tests; Node 18+
+node tests/frontend.test.cjs                 # 15 interaction tests; Node 18+
 node --check recipe_sorter/frontend/app.js
 # Optional real browser workflow on a workstation:
 python -m pip install -e '.[browser]'

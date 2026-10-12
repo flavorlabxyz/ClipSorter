@@ -1,0 +1,1340 @@
+{
+  "schema": 2,
+  "created_at": "2026-10-12T19:28:55.151664+00:00",
+  "dataset": "Analytical multi-stage threads and unseen pan",
+  "synthetic": true,
+  "manifest_sha256": "4df5968d166eb08d072409b430f5cc2d9f1bf850c736fbe3f3b22ad48fdb8a54",
+  "split_counts": {
+    "example": 4,
+    "calibration": 7,
+    "evaluation": 7
+  },
+  "warnings": [],
+  "target_calibration_precision": 0.95,
+  "scope": "Frozen frame embeddings; automatic proposals ignore all active/manual assignments. Guided seeds are only the example split.",
+  "memory_scope": "tracemalloc excludes some native allocations; RSS is cumulative process high-water mark in KiB. Decode/model preparation is separate.",
+  "preparation": null,
+  "results": [
+    {
+      "backend": "features",
+      "method": "complete",
+      "operating_point": "default",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.5714285714285714,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 2.0,
+      "fragmentation_by_recipe": {
+        "cake": 2,
+        "rolls": 2,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.89,
+      "review_profile": null,
+      "calibration": null,
+      "scoring_seconds": 0.020878018000075826,
+      "peak_python_allocated_bytes": 46044,
+      "process_peak_rss_kib": 25588,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "features",
+      "method": "complete",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.8,
+      "review_profile": null,
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 1.0,
+        "uncertain_fraction": 0.14285714285714285,
+        "suggested_match_accuracy": null,
+        "top_ranked_accuracy": null,
+        "assigned_clips": 6,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 6,
+        "false_positive_pairs": 0,
+        "missed_pairs": 0,
+        "assignment_coverage": 0.8571428571428571,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "cake": 1,
+          "rolls": 1,
+          "unknown-pan": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.023625042002095142,
+      "peak_python_allocated_bytes": 30456,
+      "process_peak_rss_kib": 25588,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "features",
+      "method": "guarded",
+      "operating_point": "default",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.5714285714285714,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 2.0,
+      "fragmentation_by_recipe": {
+        "cake": 2,
+        "rolls": 2,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.89,
+      "review_profile": null,
+      "calibration": null,
+      "scoring_seconds": 0.019231356000091182,
+      "peak_python_allocated_bytes": 70702,
+      "process_peak_rss_kib": 25844,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "features",
+      "method": "guarded",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.88,
+      "review_profile": null,
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 1.0,
+        "uncertain_fraction": 0.14285714285714285,
+        "suggested_match_accuracy": null,
+        "top_ranked_accuracy": null,
+        "assigned_clips": 6,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 6,
+        "false_positive_pairs": 0,
+        "missed_pairs": 0,
+        "assignment_coverage": 0.8571428571428571,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "cake": 1,
+          "rolls": 1,
+          "unknown-pan": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.014593414998671506,
+      "peak_python_allocated_bytes": 33440,
+      "process_peak_rss_kib": 25844,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "features",
+      "method": "bank",
+      "operating_point": "default",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "cake",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "rolls",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.9,
+        "margin": 0.035,
+        "frame_floor": 0.86,
+        "coverage": 0.6
+      },
+      "calibration": null,
+      "scoring_seconds": 0.03147031399930711,
+      "peak_python_allocated_bytes": 980208,
+      "process_peak_rss_kib": 27612,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "features",
+      "method": "bank",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "cake",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "rolls",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.98,
+        "margin": 0.12,
+        "frame_floor": 0.86,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 1.0,
+        "uncertain_fraction": 0.14285714285714285,
+        "suggested_match_accuracy": 1.0,
+        "top_ranked_accuracy": 0.8571428571428571,
+        "assigned_clips": 6,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 6,
+        "false_positive_pairs": 0,
+        "missed_pairs": 0,
+        "assignment_coverage": 0.8571428571428571,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "cake": 1,
+          "rolls": 1,
+          "unknown-pan": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.010573858002317138,
+      "peak_python_allocated_bytes": 20388,
+      "process_peak_rss_kib": 27740,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "features",
+      "method": "prototypes",
+      "operating_point": "default",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "cake",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "rolls",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.9,
+        "margin": 0.035,
+        "frame_floor": 0.86,
+        "coverage": 0.6
+      },
+      "calibration": null,
+      "scoring_seconds": 0.012220150001667207,
+      "peak_python_allocated_bytes": 17826,
+      "process_peak_rss_kib": 27868,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "features",
+      "method": "prototypes",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "cake",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "rolls",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.98,
+        "margin": 0.12,
+        "frame_floor": 0.86,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 1.0,
+        "uncertain_fraction": 0.14285714285714285,
+        "suggested_match_accuracy": 1.0,
+        "top_ranked_accuracy": 0.8571428571428571,
+        "assigned_clips": 6,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 6,
+        "false_positive_pairs": 0,
+        "missed_pairs": 0,
+        "assignment_coverage": 0.8571428571428571,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "cake": 1,
+          "rolls": 1,
+          "unknown-pan": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.013405038997007068,
+      "peak_python_allocated_bytes": 17254,
+      "process_peak_rss_kib": 27868,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "clip",
+      "method": "complete",
+      "operating_point": "default",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.5714285714285714,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 2.0,
+      "fragmentation_by_recipe": {
+        "cake": 2,
+        "rolls": 2,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.88,
+      "review_profile": null,
+      "calibration": null,
+      "scoring_seconds": 0.017498591001640307,
+      "peak_python_allocated_bytes": 30576,
+      "process_peak_rss_kib": 27868,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "clip",
+      "method": "complete",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.8,
+      "review_profile": null,
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 1.0,
+        "uncertain_fraction": 0.14285714285714285,
+        "suggested_match_accuracy": null,
+        "top_ranked_accuracy": null,
+        "assigned_clips": 6,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 6,
+        "false_positive_pairs": 0,
+        "missed_pairs": 0,
+        "assignment_coverage": 0.8571428571428571,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "cake": 1,
+          "rolls": 1,
+          "unknown-pan": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.012561821997223888,
+      "peak_python_allocated_bytes": 30456,
+      "process_peak_rss_kib": 27868,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "clip",
+      "method": "guarded",
+      "operating_point": "default",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.88,
+      "review_profile": null,
+      "calibration": null,
+      "scoring_seconds": 0.022367176999978255,
+      "peak_python_allocated_bytes": 33736,
+      "process_peak_rss_kib": 27868,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "clip",
+      "method": "guarded",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.88,
+      "review_profile": null,
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 1.0,
+        "uncertain_fraction": 0.14285714285714285,
+        "suggested_match_accuracy": null,
+        "top_ranked_accuracy": null,
+        "assigned_clips": 6,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 6,
+        "false_positive_pairs": 0,
+        "missed_pairs": 0,
+        "assignment_coverage": 0.8571428571428571,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "cake": 1,
+          "rolls": 1,
+          "unknown-pan": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.015448024001671001,
+      "peak_python_allocated_bytes": 33440,
+      "process_peak_rss_kib": 27868,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "clip",
+      "method": "bank",
+      "operating_point": "default",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "cake",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "rolls",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.78,
+        "margin": 0.04,
+        "frame_floor": 0.74,
+        "coverage": 0.6
+      },
+      "calibration": null,
+      "scoring_seconds": 0.012357685998722445,
+      "peak_python_allocated_bytes": 21300,
+      "process_peak_rss_kib": 27868,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "clip",
+      "method": "bank",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "cake",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "rolls",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.98,
+        "margin": 0.12,
+        "frame_floor": 0.74,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 1.0,
+        "uncertain_fraction": 0.14285714285714285,
+        "suggested_match_accuracy": 1.0,
+        "top_ranked_accuracy": 0.8571428571428571,
+        "assigned_clips": 6,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 6,
+        "false_positive_pairs": 0,
+        "missed_pairs": 0,
+        "assignment_coverage": 0.8571428571428571,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "cake": 1,
+          "rolls": 1,
+          "unknown-pan": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.011200067001482239,
+      "peak_python_allocated_bytes": 20351,
+      "process_peak_rss_kib": 27868,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "clip",
+      "method": "prototypes",
+      "operating_point": "default",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "cake",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "rolls",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.78,
+        "margin": 0.04,
+        "frame_floor": 0.74,
+        "coverage": 0.6
+      },
+      "calibration": null,
+      "scoring_seconds": 0.016826397000841098,
+      "peak_python_allocated_bytes": 17470,
+      "process_peak_rss_kib": 27868,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "clip",
+      "method": "prototypes",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "cake",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "rolls",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.98,
+        "margin": 0.12,
+        "frame_floor": 0.74,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 1.0,
+        "uncertain_fraction": 0.14285714285714285,
+        "suggested_match_accuracy": 1.0,
+        "top_ranked_accuracy": 0.8571428571428571,
+        "assigned_clips": 6,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 6,
+        "false_positive_pairs": 0,
+        "missed_pairs": 0,
+        "assignment_coverage": 0.8571428571428571,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "cake": 1,
+          "rolls": 1,
+          "unknown-pan": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.014885524000419537,
+      "peak_python_allocated_bytes": 17166,
+      "process_peak_rss_kib": 27996,
+      "embedding_array_bytes": 432
+    },
+    {
+      "backend": "hybrid",
+      "method": "complete",
+      "operating_point": "default",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.5714285714285714,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 2.0,
+      "fragmentation_by_recipe": {
+        "cake": 2,
+        "rolls": 2,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.885,
+      "review_profile": null,
+      "calibration": null,
+      "scoring_seconds": 0.017033788000844652,
+      "peak_python_allocated_bytes": 30344,
+      "process_peak_rss_kib": 27996,
+      "embedding_array_bytes": 864
+    },
+    {
+      "backend": "hybrid",
+      "method": "complete",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.8,
+      "review_profile": null,
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 1.0,
+        "uncertain_fraction": 0.14285714285714285,
+        "suggested_match_accuracy": null,
+        "top_ranked_accuracy": null,
+        "assigned_clips": 6,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 6,
+        "false_positive_pairs": 0,
+        "missed_pairs": 0,
+        "assignment_coverage": 0.8571428571428571,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "cake": 1,
+          "rolls": 1,
+          "unknown-pan": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.015214498002023902,
+      "peak_python_allocated_bytes": 30672,
+      "process_peak_rss_kib": 27996,
+      "embedding_array_bytes": 864
+    },
+    {
+      "backend": "hybrid",
+      "method": "guarded",
+      "operating_point": "default",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.5714285714285714,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 2.0,
+      "fragmentation_by_recipe": {
+        "cake": 2,
+        "rolls": 2,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.885,
+      "review_profile": null,
+      "calibration": null,
+      "scoring_seconds": 0.018914774002041668,
+      "peak_python_allocated_bytes": 34166,
+      "process_peak_rss_kib": 27996,
+      "embedding_array_bytes": 864
+    },
+    {
+      "backend": "hybrid",
+      "method": "guarded",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.88,
+      "review_profile": null,
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 1.0,
+        "uncertain_fraction": 0.14285714285714285,
+        "suggested_match_accuracy": null,
+        "top_ranked_accuracy": null,
+        "assigned_clips": 6,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 6,
+        "false_positive_pairs": 0,
+        "missed_pairs": 0,
+        "assignment_coverage": 0.8571428571428571,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "cake": 1,
+          "rolls": 1,
+          "unknown-pan": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.017245195998839336,
+      "peak_python_allocated_bytes": 33656,
+      "process_peak_rss_kib": 27996,
+      "embedding_array_bytes": 864
+    },
+    {
+      "backend": "hybrid",
+      "method": "bank",
+      "operating_point": "default",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "cake",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "rolls",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.8,
+        "margin": 0.04,
+        "frame_floor": 0.76,
+        "coverage": 0.6
+      },
+      "calibration": null,
+      "scoring_seconds": 0.020231779999448918,
+      "peak_python_allocated_bytes": 22287,
+      "process_peak_rss_kib": 27996,
+      "embedding_array_bytes": 864
+    },
+    {
+      "backend": "hybrid",
+      "method": "bank",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "cake",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "rolls",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.98,
+        "margin": 0.12,
+        "frame_floor": 0.76,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 1.0,
+        "uncertain_fraction": 0.14285714285714285,
+        "suggested_match_accuracy": 1.0,
+        "top_ranked_accuracy": 0.8571428571428571,
+        "assigned_clips": 6,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 6,
+        "false_positive_pairs": 0,
+        "missed_pairs": 0,
+        "assignment_coverage": 0.8571428571428571,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "cake": 1,
+          "rolls": 1,
+          "unknown-pan": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.022262438000325346,
+      "peak_python_allocated_bytes": 21408,
+      "process_peak_rss_kib": 27996,
+      "embedding_array_bytes": 864
+    },
+    {
+      "backend": "hybrid",
+      "method": "prototypes",
+      "operating_point": "default",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "cake",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "rolls",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.8,
+        "margin": 0.04,
+        "frame_floor": 0.76,
+        "coverage": 0.6
+      },
+      "calibration": null,
+      "scoring_seconds": 0.022381515002052765,
+      "peak_python_allocated_bytes": 18766,
+      "process_peak_rss_kib": 27996,
+      "embedding_array_bytes": 864
+    },
+    {
+      "backend": "hybrid",
+      "method": "prototypes",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "cake": 1,
+        "rolls": 1,
+        "unknown-pan": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "cake",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "rolls",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.98,
+        "margin": 0.12,
+        "frame_floor": 0.76,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 1.0,
+        "uncertain_fraction": 0.14285714285714285,
+        "suggested_match_accuracy": 1.0,
+        "top_ranked_accuracy": 0.8571428571428571,
+        "assigned_clips": 6,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 6,
+        "false_positive_pairs": 0,
+        "missed_pairs": 0,
+        "assignment_coverage": 0.8571428571428571,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "cake": 1,
+          "rolls": 1,
+          "unknown-pan": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.018412402001558803,
+      "peak_python_allocated_bytes": 18814,
+      "process_peak_rss_kib": 27996,
+      "embedding_array_bytes": 864
+    }
+  ],
+  "skipped": []
+}

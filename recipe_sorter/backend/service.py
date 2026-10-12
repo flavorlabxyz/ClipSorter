@@ -41,6 +41,19 @@ class Service:
         threading.Thread(target=work, daemon=True, name="media-worker").start()
         return self.snapshot()
 
+    def organization_action(self, action, expected, reset_id=None):
+        from ..storage.organization import Organization
+        with self.lock:
+            if self.job['state'] == 'running':
+                raise ValueError('Wait for the current scan, analysis, recommendation or preview job to finish before changing the sorting session.')
+            org = Organization(self.db)
+            if action == 'reset': result = org.reset(expected)
+            elif action == 'restore': result = org.restore(reset_id, expected)
+            elif action == 'cleanup': result = org.cleanup(expected)
+            else: raise ValueError('Unknown organization operation')
+            self.job = {'state':'idle','message':'Organization saved','done':0,'total':0,'errors':[]}
+            return result
+
     def progress(self, **kwargs):
         with self.lock:
             self.job.update(kwargs)
@@ -87,21 +100,30 @@ class Service:
             self.progress(done=index + 1, message=f"Scanned {path.name}")
 
     def prepare_frames(self, clip, sampling="uniform", force=False):
-        from ..analysis.frame_sampling import adaptive_frames
-        sampling_version = "sampling-v2" if sampling == "uniform" else "adaptive-v1"
+        from ..analysis.frame_sampling import adaptive_frames, diverse_frames
+        sampling_version = {"uniform":"sampling-v2","adaptive":"adaptive-v1","diverse":"diverse-v1"}[sampling]
         source = Path(clip["path"])
         self.cache.check_source(source)
         if source.is_symlink():
             raise ValueError("Source has become a symlink; refusing analysis")
         self.db.upsert_source(source, fingerprint(source), clip["decoder"])
         clip = self.db.get_clip(clip["id"])
-        frames = self.db.rows("SELECT path FROM frames WHERE clip_id=?", (clip["id"],))
+        frames = self.db.rows("SELECT path,seconds FROM frames WHERE clip_id=?", (clip["id"],))
         reusable = clip["sampling_version"] == sampling_version and len(frames) >= 2 and all(self.cache.path(f["path"]).is_file() for f in frames)
         if force or not reusable:
             decoder = self.decoder_factory(source, self.cache)
             meta = decoder.probe(source)
-            sampler = sample_frames if sampling == "uniform" else adaptive_frames
-            samples = sampler(decoder, source, meta)
+            sampler = {"uniform":sample_frames,"adaptive":adaptive_frames,"diverse":diverse_frames}[sampling]
+            from PIL import Image
+            cached = {round(f['seconds'],6):f['path'] for f in frames if self.cache.path(f['path']).is_file()} if not force else {}
+            cache_root = self.cache
+            class ReuseFrames:
+                def frame(self, path, seconds):
+                    key=round(seconds,6)
+                    if key in cached:
+                        with Image.open(cache_root.path(cached[key])) as image:return image.convert('RGB')
+                    return decoder.frame(path,seconds)
+            samples = sampler(ReuseFrames(), source, meta)
             records = []
             generation = uuid.uuid4().hex[:12]
             for quality, seconds, image in samples:
@@ -117,9 +139,10 @@ class Service:
                 db.execute("UPDATE clips SET metadata=?,sampling_version=? WHERE id=?", (json.dumps(meta.dict()), sampling_version, clip['id']))
         return self.db.get_clip(clip['id'])
 
-    def analyze(self, backend="features", force=False, sampling="uniform"):
+    def analyze(self, backend="features", force=False, sampling="uniform", method="complete"):
+        generation = self.db.sorting_state()["generation"]
         from ..analysis.embedding_cache import EmbeddingCache
-        if backend not in ("features", "clip", "hybrid") or sampling not in ("uniform", "adaptive"):
+        if backend not in ("features", "clip", "hybrid") or sampling not in ("uniform", "adaptive", "diverse") or method not in ("complete", "guarded"):
             raise ValueError("Unknown analysis backend or sampling strategy")
         cache = EmbeddingCache(self.cache, self.db)
         clips = self.db.rows("SELECT * FROM clips WHERE demo=0 ORDER BY path")
@@ -154,46 +177,77 @@ class Service:
                 self.fail_clip(old['id'], exc)
             self.progress(done=index + 1)
         self.progress(message="Comparing cached evidence; your manual groups stay in place", cache=cache.stats)
-        proposals, pairs = cluster(inputs, threshold={'features':.89,'clip':.88,'hybrid':.885}[backend])
-        self.save_proposals(inputs, proposals, pairs, f"{backend}:{sampling}:{VERSION}")
+        from ..analysis.guarded import guarded_cluster
+        algorithm = cluster if method == "complete" else guarded_cluster
+        proposals, pairs = algorithm(inputs, threshold={'features':.89,'clip':.88,'hybrid':.885}[backend])
+        self.save_proposals(inputs, proposals, pairs, f"{backend}:{sampling}:{method}:{VERSION}", generation)
 
-    def save_proposals(self, inputs, proposals, pairs, version):
+    def save_proposals(self, inputs, proposals, pairs, version, generation=None):
+        from collections import Counter
+        import numpy as np
+        from ..storage.organization import Organization
+        generation = generation if generation is not None else self.db.sorting_state()['generation']
         with self.db.connect() as db:
-            run = db.execute("INSERT INTO runs(created_at,version) VALUES(?,?)", (now(), version)).lastrowid
-            groups = {}
-            used = set()
-            # Reuse an existing auto group when a majority of the new members agree.
-            candidates = sorted({r["evidence"]["best_candidate"] for r in proposals if r["evidence"]["best_candidate"] is not None})
-            for group in candidates:
-                member_ids = [p["clip_id"] for p in proposals if p["evidence"]["best_candidate"] == group]
-                old = [c["proposed_group"] for c in inputs if c["id"] in member_ids and c["proposed_group"] != 1]
-                reuse = max(set(old), key=old.count) if old else None
-                if reuse and reuse not in used and old.count(reuse) > len(member_ids) / 2 and db.execute("SELECT 1 FROM groups WHERE id=? AND deleted=0 AND kind='auto'", (reuse,)).fetchone():
-                    groups[group] = reuse
-                    used.add(reuse)
+            db.execute('BEGIN IMMEDIATE')
+            self.db.require_generation(db, generation)
+            live = {r['id']:dict(r) for r in db.execute('SELECT * FROM clips')}
+            run = db.execute('INSERT INTO runs(created_at,version,generation) VALUES(?,?,?)',(now(),version,generation)).lastrowid
+            groups, used = {}, set()
+            # Candidates are evidence, not members. Only publish effective groups.
+            candidates = sorted({p['group'] for p in proposals if p['group'] is not None and live[p['clip_id']]['manual_group'] is None})
+            for cluster_id in candidates:
+                member_ids = [p['clip_id'] for p in proposals if p['group']==cluster_id and live[p['clip_id']]['manual_group'] is None]
+                old = [live[cid]['proposed_group'] for cid in member_ids if live[cid]['proposed_group'] != 1]
+                reuse = max(set(old),key=lambda x:(old.count(x),-x)) if old else None
+                if reuse and reuse not in used and old.count(reuse)>len(member_ids)/2 and db.execute("SELECT 1 FROM groups WHERE id=? AND deleted=0 AND kind='auto' AND generation=?",(reuse,generation)).fetchone():
+                    groups[cluster_id]=reuse;used.add(reuse)
                 else:
-                    serial = db.execute("SELECT COALESCE(MAX(id),1) FROM groups").fetchone()[0]
-                    groups[group] = db.execute("INSERT INTO groups(name,kind,created_at) VALUES(?,'auto',?)", (f"Recipe thread {serial:02}", now())).lastrowid
-            source_by_id = {c["id"]: c for c in inputs}
+                    serial=db.execute('SELECT COALESCE(MAX(id),1) FROM groups').fetchone()[0]
+                    groups[cluster_id]=db.execute("INSERT INTO groups(name,kind,created_at,generation) VALUES(?,'auto',?,?)",(f'Recipe thread {serial:02}',now(),generation)).lastrowid
+            by_clip = {c['id']:[] for c in inputs}
+            for left,right,score,evidence in pairs:
+                by_clip[left].append({'clip_id':right,'score':score,'visual':evidence['visual']})
+                by_clip[right].append({'clip_id':left,'score':score,'visual':evidence['visual']})
+            reasons=Counter()
             for p in proposals:
-                group = groups[p["group"]] if p["group"] is not None else 1
-                evidence = {**p["evidence"]}
-                evidence["best_candidate"] = groups.get(evidence["best_candidate"])
-                evidence["second_candidate"] = groups.get(evidence["second_candidate"])
-                encoded = json.dumps(evidence)
-                db.execute("INSERT INTO proposals(run_id,clip_id,group_id,confidence,evidence,fingerprint) VALUES(?,?,?,?,?,?)",
-                           (run, p["clip_id"], group, p["confidence"], encoded, source_by_id[p["clip_id"]]["fingerprint"]))
-                db.execute("UPDATE clips SET proposed_group=?,confidence=?,evidence=? WHERE id=?", (group, p["confidence"], encoded, p["clip_id"]))
-            # Retain top five pair explanations per clip; compute all pairs, avoid quadratic DB growth.
-            keep = set()
-            by_clip = {c["id"]: [] for c in inputs}
-            for pair in pairs:
-                by_clip[pair[0]].append(pair)
-                by_clip[pair[1]].append(pair)
-            for c in inputs:
-                ranked = sorted(by_clip[c["id"]], key=lambda p: p[2], reverse=True)[:5]
-                keep.update((p[0], p[1]) for p in ranked)
-            db.executemany("INSERT INTO similarities VALUES(?,?,?,?,?)", [(run, a, b, s, json.dumps(e)) for a, b, s, e in pairs if (a, b) in keep])
+                c=live[p['clip_id']]; evidence=dict(p['evidence'])
+                neighbors=sorted(by_clip[c['id']],key=lambda x:(-x['score'],x['clip_id']))[:5]
+                reason = evidence.get('reason_code')
+                if not reason:
+                    if p['group'] is not None: reason='grouped'
+                    elif not neighbors: reason='no_evidence'
+                    elif evidence.get('margin',0)<.045 and evidence.get('second_candidate') is not None: reason='competing_groups'
+                    elif evidence.get('best_candidate') is None: reason='no_consistent_companions'
+                    elif 'companion' in evidence.get('reason','').lower(): reason='singleton'
+                    else: reason='weak_visual_agreement'
+                if c['manual_group'] is not None: reason='manual_protected'
+                evidence.update(reason_code=reason,algorithm_group=p['group'],neighbors=neighbors,
+                    best_neighbor=neighbors[0]['clip_id'] if neighbors else None,
+                    best_candidate_cluster=evidence.get('best_candidate'),second_candidate_cluster=evidence.get('second_candidate'))
+                evidence['best_candidate']=groups.get(evidence.get('best_candidate'))
+                evidence['second_candidate']=groups.get(evidence.get('second_candidate'))
+                if reason=='manual_protected': evidence['reason']='Your manual decision protects this clip; automatic evidence does not change its group.'
+                group=groups.get(p['group'],1)
+                db.execute('INSERT INTO proposals(run_id,clip_id,group_id,confidence,evidence,fingerprint) VALUES(?,?,?,?,?,?)',(run,c['id'],group,p['confidence'],json.dumps(evidence),c['fingerprint']))
+                db.execute('UPDATE clips SET proposed_group=?,confidence=?,evidence=?,sorting_state=? WHERE id=?',(group,p['confidence'],json.dumps(evidence),'grouped' if group!=1 else 'uncertain',c['id']))
+                if group==1 and c['manual_group'] is None: reasons[reason]+=1
+            # Retire obsolete automatic groups only, preserving user drop targets.
+            for gid in Organization(self.db).empty_ids(db,automatic_only=True):
+                db.execute('UPDATE groups SET deleted=1 WHERE id=?',(gid,))
+            keep={(min(cid,n['clip_id']),max(cid,n['clip_id'])) for cid,ns in by_clip.items() for n in sorted(ns,key=lambda x:-x['score'])[:5]}
+            db.executemany('INSERT INTO similarities VALUES(?,?,?,?,?)',[(run,a,b,score,json.dumps(e)) for a,b,score,e in pairs if (a,b) in keep])
+            clips=[dict(r) for r in db.execute('SELECT * FROM clips')]
+            scores=[e['visual'] for _,_,_,e in pairs]
+            summary={'processed_clips':len(inputs),'total_clips':len(clips),
+                'failures':sum(c['status'] in ('failed','unsupported','braw_unavailable') for c in clips),
+                'manually_protected':sum(c['manual_group'] is not None for c in clips),
+                'automatically_grouped':sum(c['manual_group'] is None and c['proposed_group']!=1 for c in clips),
+                'uncertain':sum(c['manual_group'] is None and c['sorting_state']=='uncertain' and c['status']=='analyzed' for c in clips),
+                'unsorted':sum(c['manual_group'] is None and c['sorting_state']=='unsorted' for c in clips),
+                'uncertainty_reasons':dict(reasons),'visual_score_quantiles':dict(zip(('p10','p50','p90'),map(float,np.quantile(scores,[.1,.5,.9])))) if scores else {},
+                'method':version}
+            db.execute('UPDATE runs SET summary=? WHERE id=?',(json.dumps(summary),run))
+        self.progress(summary=summary)
 
     def preview(self, clip_id):
         c = self.db.get_clip(clip_id)

@@ -36,7 +36,7 @@ class MoveTests(Fixture):
             conn.executemany('INSERT INTO frames(clip_id,seconds,path,quality,embedding) VALUES(1,?,?,1,?)',[(1,'a.jpg','[1,0]'),(3,'b.jpg','[0,1]')])
         db=Database(cache)
         self.assertEqual(db.get_clip(1)['manual_group'],1)
-        self.assertEqual(db.rows('PRAGMA user_version')[0]['user_version'],2)
+        self.assertEqual(db.rows('PRAGMA user_version')[0]['user_version'],3)
         self.assertEqual(db.rows('SELECT * FROM embeddings')[0]['model_version'],'clip-vit-b32-v1-abc')
         self.assertTrue(cache.path('library.pre-v1.5.sqlite3').exists())
         Database(cache)  # idempotent startup
@@ -211,6 +211,7 @@ class RecommendationStorageTests(Fixture):
 
     def test_export_omits_stale_cache_without_loading_model(self):
         self.db.assign(self.ids,self.group)
+        for cid in self.ids:self.db.label(cid,'Cake')
         with self.db.connect() as conn:
             conn.execute("UPDATE embeddings SET sampling_version='obsolete' WHERE clip_id=?",(self.ids[0],))
         with patch('recipe_sorter.analysis.embedding_cache.create_embedder',side_effect=AssertionError('Cache-only export')):
@@ -280,10 +281,10 @@ class UpgradeAPITests(Fixture):
                 async with app.router.lifespan_context(app):
                     async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app),base_url='http://testserver',headers={'X-Recipe-Sorter':'local'}) as client:
                         library=(await client.get('/api/library')).json();g=library['groups'][0]['id'];ids=[c['id'] for c in library['clips'][:2]]
-                        response=await client.post('/api/assign',json={'clip_ids':ids,'group_id':g,'expected_revisions':{str(cid):0 for cid in ids}})
+                        response=await client.post('/api/assign',json={'clip_ids':ids,'group_id':g,'expected_revisions':{str(cid):0 for cid in ids},'confirm':True})
                         self.assertEqual(response.status_code,200);move=response.json()['move_id']
                         self.assertEqual((await client.post(f'/api/moves/{move}/undo')).status_code,200)
-                        await client.post('/api/assign',json={'clip_ids':ids,'group_id':g})
+                        await client.post('/api/assign',json={'clip_ids':ids,'group_id':g,'confirm':True})
                         response=await client.post('/api/recommendations',json={'group_id':g,'backend':'features','example_ids':ids})
                         self.assertEqual(response.status_code,200)
                         for _ in range(500):

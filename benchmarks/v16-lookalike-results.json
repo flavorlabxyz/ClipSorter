@@ -1,0 +1,1228 @@
+{
+  "schema": 2,
+  "created_at": "2026-10-12T19:28:56.131140+00:00",
+  "dataset": "Synthetic multistage and similar-bowl stress fixture",
+  "synthetic": true,
+  "manifest_sha256": "5e15101620f6afc78f77b592f8eb8579876f463ad9ff7438b5d68fc4ec4f7a5a",
+  "split_counts": {
+    "example": 4,
+    "calibration": 7,
+    "evaluation": 7
+  },
+  "warnings": [
+    "No filming-session labels; independence of visual content across splits is unverified."
+  ],
+  "target_calibration_precision": 0.95,
+  "scope": "Frozen frame embeddings; automatic proposals ignore all active/manual assignments. Guided seeds are only the example split.",
+  "memory_scope": "tracemalloc excludes some native allocations; RSS is cumulative process high-water mark in KiB. Decode/model preparation is separate.",
+  "preparation": null,
+  "results": [
+    {
+      "backend": "features",
+      "method": "complete",
+      "operating_point": "default",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.5714285714285714,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 2.0,
+      "fragmentation_by_recipe": {
+        "0": 2,
+        "1": 2,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.89,
+      "review_profile": null,
+      "calibration": null,
+      "scoring_seconds": 0.015100870998139726,
+      "peak_python_allocated_bytes": 30064,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "features",
+      "method": "complete",
+      "operating_point": "calibrated",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 1.0,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 0,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.0,
+      "cross_recipe_contamination": null,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": null,
+      "fragmentation_by_recipe": {
+        "0": 0,
+        "1": 0,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 3,
+      "recommendation_quality_at_10": null,
+      "threshold": 1.01,
+      "review_profile": null,
+      "calibration": {
+        "reason": "No operating point met calibration pair precision; abstaining"
+      },
+      "scoring_seconds": 0.01218121300189523,
+      "peak_python_allocated_bytes": 25792,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "features",
+      "method": "guarded",
+      "operating_point": "default",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.5714285714285714,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 2.0,
+      "fragmentation_by_recipe": {
+        "0": 2,
+        "1": 2,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.89,
+      "review_profile": null,
+      "calibration": null,
+      "scoring_seconds": 0.020627385998523096,
+      "peak_python_allocated_bytes": 33894,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "features",
+      "method": "guarded",
+      "operating_point": "calibrated",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 1.0,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 0,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.0,
+      "cross_recipe_contamination": null,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": null,
+      "fragmentation_by_recipe": {
+        "0": 0,
+        "1": 0,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 3,
+      "recommendation_quality_at_10": null,
+      "threshold": 1.01,
+      "review_profile": null,
+      "calibration": {
+        "reason": "No operating point met calibration pair precision; abstaining"
+      },
+      "scoring_seconds": 0.01581262599938782,
+      "peak_python_allocated_bytes": 30163,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "features",
+      "method": "bank",
+      "operating_point": "default",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "0": 1,
+        "1": 1,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "0",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "1",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.9,
+        "margin": 0.035,
+        "frame_floor": 0.86,
+        "coverage": 0.6
+      },
+      "calibration": null,
+      "scoring_seconds": 0.019750465999095468,
+      "peak_python_allocated_bytes": 20893,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "features",
+      "method": "bank",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 1.0,
+      "uncertain_fraction": 0.14285714285714285,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 6,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 6,
+      "false_positive_pairs": 0,
+      "missed_pairs": 0,
+      "assignment_coverage": 0.8571428571428571,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "0": 1,
+        "1": 1,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "0",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "1",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.98,
+        "margin": 0.12,
+        "frame_floor": 0.86,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 1.0,
+        "uncertain_fraction": 0.14285714285714285,
+        "suggested_match_accuracy": 1.0,
+        "top_ranked_accuracy": 0.8571428571428571,
+        "assigned_clips": 6,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 6,
+        "false_positive_pairs": 0,
+        "missed_pairs": 0,
+        "assignment_coverage": 0.8571428571428571,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "0": 1,
+          "1": 1,
+          "unseen": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.012296349999814993,
+      "peak_python_allocated_bytes": 20704,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "features",
+      "method": "prototypes",
+      "operating_point": "default",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.7142857142857143,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 2,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.2857142857142857,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "0": 1,
+        "1": 1,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "0",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "1",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.9,
+        "margin": 0.035,
+        "frame_floor": 0.86,
+        "coverage": 0.6
+      },
+      "calibration": null,
+      "scoring_seconds": 0.01363351400141255,
+      "peak_python_allocated_bytes": 16666,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "features",
+      "method": "prototypes",
+      "operating_point": "calibrated",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.7142857142857143,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 2,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.2857142857142857,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "0": 1,
+        "1": 1,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "0",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "1",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.98,
+        "margin": 0.12,
+        "frame_floor": 0.86,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "pairwise_precision": null,
+        "pairwise_recall": 0.0,
+        "uncertain_fraction": 0.7142857142857143,
+        "suggested_match_accuracy": 1.0,
+        "top_ranked_accuracy": 0.8571428571428571,
+        "assigned_clips": 2,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 0,
+        "false_positive_pairs": 0,
+        "missed_pairs": 6,
+        "assignment_coverage": 0.2857142857142857,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "0": 1,
+          "1": 1,
+          "unseen": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.017138548999355407,
+      "peak_python_allocated_bytes": 15838,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "clip",
+      "method": "complete",
+      "operating_point": "default",
+      "pairwise_precision": 0.0,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 1,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.5714285714285714,
+      "cross_recipe_contamination": 0.5,
+      "contaminated_assigned_clips": 2,
+      "recipe_fragmentation": 2.0,
+      "fragmentation_by_recipe": {
+        "0": 2,
+        "1": 2,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.88,
+      "review_profile": null,
+      "calibration": null,
+      "scoring_seconds": 0.016189703001145972,
+      "peak_python_allocated_bytes": 30808,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "clip",
+      "method": "complete",
+      "operating_point": "calibrated",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 1.0,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 0,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.0,
+      "cross_recipe_contamination": null,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": null,
+      "fragmentation_by_recipe": {
+        "0": 0,
+        "1": 0,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 3,
+      "recommendation_quality_at_10": null,
+      "threshold": 1.01,
+      "review_profile": null,
+      "calibration": {
+        "reason": "No operating point met calibration pair precision; abstaining"
+      },
+      "scoring_seconds": 0.01144865199967171,
+      "peak_python_allocated_bytes": 26056,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "clip",
+      "method": "guarded",
+      "operating_point": "default",
+      "pairwise_precision": 0.0,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 1,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.5714285714285714,
+      "cross_recipe_contamination": 0.5,
+      "contaminated_assigned_clips": 2,
+      "recipe_fragmentation": 2.0,
+      "fragmentation_by_recipe": {
+        "0": 2,
+        "1": 2,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.88,
+      "review_profile": null,
+      "calibration": null,
+      "scoring_seconds": 0.018073770999762928,
+      "peak_python_allocated_bytes": 34244,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "clip",
+      "method": "guarded",
+      "operating_point": "calibrated",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 1.0,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 0,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.0,
+      "cross_recipe_contamination": null,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": null,
+      "fragmentation_by_recipe": {
+        "0": 0,
+        "1": 0,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 3,
+      "recommendation_quality_at_10": null,
+      "threshold": 1.01,
+      "review_profile": null,
+      "calibration": {
+        "reason": "No operating point met calibration pair precision; abstaining"
+      },
+      "scoring_seconds": 0.01653019999866956,
+      "peak_python_allocated_bytes": 30427,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "clip",
+      "method": "bank",
+      "operating_point": "default",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 0.3333333333333333,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.5714285714285714,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 2,
+      "false_positive_pairs": 0,
+      "missed_pairs": 4,
+      "assignment_coverage": 0.5714285714285714,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "0": 1,
+        "1": 1,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "0",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "1",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.78,
+        "margin": 0.04,
+        "frame_floor": 0.74,
+        "coverage": 0.6
+      },
+      "calibration": null,
+      "scoring_seconds": 0.017788421999284765,
+      "peak_python_allocated_bytes": 20073,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "clip",
+      "method": "bank",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 0.3333333333333333,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.5714285714285714,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 2,
+      "false_positive_pairs": 0,
+      "missed_pairs": 4,
+      "assignment_coverage": 0.5714285714285714,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "0": 1,
+        "1": 1,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "0",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "1",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.94,
+        "margin": 0.12,
+        "frame_floor": 0.74,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 0.3333333333333333,
+        "uncertain_fraction": 0.42857142857142855,
+        "suggested_match_accuracy": 1.0,
+        "top_ranked_accuracy": 0.5714285714285714,
+        "assigned_clips": 4,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 2,
+        "false_positive_pairs": 0,
+        "missed_pairs": 4,
+        "assignment_coverage": 0.5714285714285714,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "0": 1,
+          "1": 1,
+          "unseen": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.019156057998770848,
+      "peak_python_allocated_bytes": 19724,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "clip",
+      "method": "prototypes",
+      "operating_point": "default",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.7142857142857143,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.5714285714285714,
+      "assigned_clips": 2,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.2857142857142857,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "0": 1,
+        "1": 1,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "0",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "1",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.78,
+        "margin": 0.04,
+        "frame_floor": 0.74,
+        "coverage": 0.6
+      },
+      "calibration": null,
+      "scoring_seconds": 0.013558750000811415,
+      "peak_python_allocated_bytes": 15794,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "clip",
+      "method": "prototypes",
+      "operating_point": "calibrated",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.7142857142857143,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.5714285714285714,
+      "assigned_clips": 2,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.2857142857142857,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "0": 1,
+        "1": 1,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "0",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "1",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.94,
+        "margin": 0.12,
+        "frame_floor": 0.74,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "pairwise_precision": null,
+        "pairwise_recall": 0.0,
+        "uncertain_fraction": 0.7142857142857143,
+        "suggested_match_accuracy": 1.0,
+        "top_ranked_accuracy": 0.5714285714285714,
+        "assigned_clips": 2,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 0,
+        "false_positive_pairs": 0,
+        "missed_pairs": 6,
+        "assignment_coverage": 0.2857142857142857,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "0": 1,
+          "1": 1,
+          "unseen": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.026014106999355135,
+      "peak_python_allocated_bytes": 15282,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 1152
+    },
+    {
+      "backend": "hybrid",
+      "method": "complete",
+      "operating_point": "default",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.7142857142857143,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 2,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.2857142857142857,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "0": 1,
+        "1": 1,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.885,
+      "review_profile": null,
+      "calibration": null,
+      "scoring_seconds": 0.028668797000136692,
+      "peak_python_allocated_bytes": 31424,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 2304
+    },
+    {
+      "backend": "hybrid",
+      "method": "complete",
+      "operating_point": "calibrated",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 1.0,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 0,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.0,
+      "cross_recipe_contamination": null,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": null,
+      "fragmentation_by_recipe": {
+        "0": 0,
+        "1": 0,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 3,
+      "recommendation_quality_at_10": null,
+      "threshold": 1.01,
+      "review_profile": null,
+      "calibration": {
+        "reason": "No operating point met calibration pair precision; abstaining"
+      },
+      "scoring_seconds": 0.015721502000815235,
+      "peak_python_allocated_bytes": 26760,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 2304
+    },
+    {
+      "backend": "hybrid",
+      "method": "guarded",
+      "operating_point": "default",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.7142857142857143,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 2,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.2857142857142857,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "0": 1,
+        "1": 1,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": null,
+      "threshold": 0.885,
+      "review_profile": null,
+      "calibration": null,
+      "scoring_seconds": 0.029681001000426477,
+      "peak_python_allocated_bytes": 34998,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 2304
+    },
+    {
+      "backend": "hybrid",
+      "method": "guarded",
+      "operating_point": "calibrated",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 1.0,
+      "suggested_match_accuracy": null,
+      "top_ranked_accuracy": null,
+      "assigned_clips": 0,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.0,
+      "cross_recipe_contamination": null,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": null,
+      "fragmentation_by_recipe": {
+        "0": 0,
+        "1": 0,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 3,
+      "recommendation_quality_at_10": null,
+      "threshold": 1.01,
+      "review_profile": null,
+      "calibration": {
+        "reason": "No operating point met calibration pair precision; abstaining"
+      },
+      "scoring_seconds": 0.01647639899965725,
+      "peak_python_allocated_bytes": 31131,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 2304
+    },
+    {
+      "backend": "hybrid",
+      "method": "bank",
+      "operating_point": "default",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 0.3333333333333333,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 2,
+      "false_positive_pairs": 0,
+      "missed_pairs": 4,
+      "assignment_coverage": 0.5714285714285714,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "0": 1,
+        "1": 1,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "0",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "1",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.8,
+        "margin": 0.04,
+        "frame_floor": 0.76,
+        "coverage": 0.6
+      },
+      "calibration": null,
+      "scoring_seconds": 0.0383430789988779,
+      "peak_python_allocated_bytes": 21422,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 2304
+    },
+    {
+      "backend": "hybrid",
+      "method": "bank",
+      "operating_point": "calibrated",
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 0.3333333333333333,
+      "uncertain_fraction": 0.42857142857142855,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.8571428571428571,
+      "assigned_clips": 4,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 2,
+      "false_positive_pairs": 0,
+      "missed_pairs": 4,
+      "assignment_coverage": 0.5714285714285714,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "0": 1,
+        "1": 1,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "0",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "1",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.98,
+        "margin": 0.12,
+        "frame_floor": 0.76,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "pairwise_precision": 1.0,
+        "pairwise_recall": 0.3333333333333333,
+        "uncertain_fraction": 0.42857142857142855,
+        "suggested_match_accuracy": 1.0,
+        "top_ranked_accuracy": 0.8571428571428571,
+        "assigned_clips": 4,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 2,
+        "false_positive_pairs": 0,
+        "missed_pairs": 4,
+        "assignment_coverage": 0.5714285714285714,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "0": 1,
+          "1": 1,
+          "unseen": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.02554370299912989,
+      "peak_python_allocated_bytes": 20846,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 2304
+    },
+    {
+      "backend": "hybrid",
+      "method": "prototypes",
+      "operating_point": "default",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.7142857142857143,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.5714285714285714,
+      "assigned_clips": 2,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.2857142857142857,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "0": 1,
+        "1": 1,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "0",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "1",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.8,
+        "margin": 0.04,
+        "frame_floor": 0.76,
+        "coverage": 0.6
+      },
+      "calibration": null,
+      "scoring_seconds": 0.01941481099856901,
+      "peak_python_allocated_bytes": 16998,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 2304
+    },
+    {
+      "backend": "hybrid",
+      "method": "prototypes",
+      "operating_point": "calibrated",
+      "pairwise_precision": null,
+      "pairwise_recall": 0.0,
+      "uncertain_fraction": 0.7142857142857143,
+      "suggested_match_accuracy": 1.0,
+      "top_ranked_accuracy": 0.5714285714285714,
+      "assigned_clips": 2,
+      "evaluated_clips": 7,
+      "true_positive_pairs": 0,
+      "false_positive_pairs": 0,
+      "missed_pairs": 6,
+      "assignment_coverage": 0.2857142857142857,
+      "cross_recipe_contamination": 0.0,
+      "contaminated_assigned_clips": 0,
+      "recipe_fragmentation": 1.0,
+      "fragmentation_by_recipe": {
+        "0": 1,
+        "1": 1,
+        "unseen": 0
+      },
+      "fully_abstained_recipes": 1,
+      "recommendation_quality_at_10": {
+        "per_recipe": [
+          {
+            "recipe": "0",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          },
+          {
+            "recipe": "1",
+            "correct": 3,
+            "reviewed": 7,
+            "precision": 0.42857142857142855
+          }
+        ],
+        "correct": 6,
+        "reviewed": 14,
+        "precision": 0.42857142857142855
+      },
+      "threshold": null,
+      "review_profile": {
+        "threshold": 0.94,
+        "margin": 0.12,
+        "frame_floor": 0.76,
+        "coverage": 0.6
+      },
+      "calibration": {
+        "pairwise_precision": null,
+        "pairwise_recall": 0.0,
+        "uncertain_fraction": 0.7142857142857143,
+        "suggested_match_accuracy": 1.0,
+        "top_ranked_accuracy": 0.5714285714285714,
+        "assigned_clips": 2,
+        "evaluated_clips": 7,
+        "true_positive_pairs": 0,
+        "false_positive_pairs": 0,
+        "missed_pairs": 6,
+        "assignment_coverage": 0.2857142857142857,
+        "cross_recipe_contamination": 0.0,
+        "contaminated_assigned_clips": 0,
+        "recipe_fragmentation": 1.0,
+        "fragmentation_by_recipe": {
+          "0": 1,
+          "1": 1,
+          "unseen": 0
+        },
+        "fully_abstained_recipes": 1
+      },
+      "scoring_seconds": 0.018404635997285368,
+      "peak_python_allocated_bytes": 16814,
+      "process_peak_rss_kib": 28124,
+      "embedding_array_bytes": 2304
+    }
+  ],
+  "skipped": []
+}

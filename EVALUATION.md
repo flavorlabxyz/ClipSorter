@@ -1,3 +1,5 @@
+> Historical V1.5 documentation. See [V1_6.md](V1_6.md) and [V1_6_EVALUATION.md](V1_6_EVALUATION.md) for the current release. To reproduce the old benchmark, add `--suite v15` to its `benchmark` commands.
+
 # CLIP audit and reproducible evaluation
 
 The actual user's footage, local CLIP weights/PyTorch, Fedora workstation, and BRAW SDK were not available. The measurements below exercise **handcrafted vector fixtures**, not CLIP inference or professional recipe-group accuracy. Real model conclusions require the labeled workflow below.

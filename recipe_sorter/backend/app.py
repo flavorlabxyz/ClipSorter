@@ -24,6 +24,7 @@ class AnalyzeBody(BaseModel):
     backend: str = "features"
     force: bool = False
     sampling: str = "uniform"
+    method: str = "complete"
 
 
 class GroupBody(BaseModel):
@@ -34,16 +35,30 @@ class AssignmentBody(BaseModel):
     clip_ids: list[int] = Field(min_length=1, max_length=1500)
     group_id: int
     expected_revisions: dict[str, int] | None = None
+    confirm: bool = False
 
 
 class RecommendationBody(BaseModel):
     group_id: int
     backend: str = "clip"
     example_ids: list[int] | None = None
+    method: str = "bank"
 
 
 class DecisionBody(BaseModel):
     decision: str
+
+
+class OrganizationBody(BaseModel):
+    generation: int
+    revision: int
+    confirmed: bool = False
+
+class LabelBody(BaseModel):
+    recipe: str
+    session: str = ''
+    stage: str = ''
+    split: str | None = None
 
 
 def create_app(data_dir=None, demo=False):
@@ -129,9 +144,9 @@ def create_app(data_dir=None, demo=False):
     def analyze(body: AnalyzeBody):
         if demo:
             raise ValueError("Demo proposals are illustrative. Launch without --demo for real analysis.")
-        if body.backend not in {"clip", "features", "hybrid"} or body.sampling not in {"uniform", "adaptive"}:
+        if body.backend not in {"clip", "features", "hybrid"} or body.sampling not in {"uniform", "adaptive", "diverse"} or body.method not in {"complete","guarded"}:
             raise ValueError("Select a valid backend and sampling strategy")
-        return service.start("Analysis", service.analyze, body.backend, body.force, body.sampling)
+        return service.start("Analysis", service.analyze, body.backend, body.force, body.sampling, body.method)
 
     @app.post("/api/groups")
     def create_group(body: GroupBody):
@@ -149,8 +164,8 @@ def create_app(data_dir=None, demo=False):
 
     @app.post("/api/assign")
     def assign(body: AssignmentBody):
-        move_id = db.assign(body.clip_ids, body.group_id, body.expected_revisions)
-        return {"saved": True, "move_id": move_id}
+        move_id = db.assign(body.clip_ids, body.group_id, body.expected_revisions, body.confirm)
+        return {"saved": True, "move_id": move_id, "moved": len(db.rows("SELECT clip_id FROM move_items WHERE move_id=?",(move_id,))) if move_id else 0}
 
     @app.post("/api/moves/{move_id}/undo")
     def undo_move(move_id: int):
@@ -164,7 +179,7 @@ def create_app(data_dir=None, demo=False):
     def recommend(body: RecommendationBody):
         if body.backend not in {"clip", "features", "hybrid"}:
             raise ValueError("Select a supported comparison backend")
-        return service.start("Find matches", recommendations.build, body.group_id, body.backend, body.example_ids)
+        return service.start("Find matches", recommendations.build, body.group_id, body.backend, body.example_ids, body.method)
 
     @app.get("/api/recommendations/{group_id}")
     def recommendation_queue(group_id: int, status: str = "pending"):
@@ -174,12 +189,39 @@ def create_app(data_dir=None, demo=False):
     def recommendation_decision(suggestion_id: int, body: DecisionBody):
         return recommendations.decide(suggestion_id, body.decision)
 
+    from ..storage.organization import Organization
+
+    @app.get('/api/organization')
+    def organization_preview():
+        return Organization(db).preview()
+
+    def confirmed(body):
+        if not body.confirmed: raise ValueError('Explicit confirmation is required')
+        return {'generation':body.generation,'revision':body.revision}
+
+    @app.post('/api/organization/reset')
+    def reset_sorting(body: OrganizationBody):
+        return service.organization_action('reset',confirmed(body))
+
+    @app.post('/api/organization/cleanup')
+    def cleanup_sorting(body: OrganizationBody):
+        return service.organization_action('cleanup',confirmed(body))
+
+    @app.post('/api/organization/restore/{reset_id}')
+    def restore_sorting(reset_id: int, body: OrganizationBody):
+        return service.organization_action('restore',confirmed(body),reset_id)
+
+    @app.post('/api/clips/{clip_id}/label')
+    def benchmark_label(clip_id: int, body: LabelBody):
+        db.label(clip_id,body.recipe,body.session,body.stage,body.split)
+        return {'saved':True}
+
     @app.get("/api/clips/{clip_id}")
     def detail(clip_id: int):
         c = next((c for c in db.library()["clips"] if c["id"] == clip_id), None)
         if not c:
             raise HTTPException(404, "Clip not found")
-        return {**c, "corrections": db.rows("SELECT * FROM corrections WHERE clip_id=? ORDER BY id DESC", (clip_id,)),
+        return {**c, "benchmark_label": next(iter(db.rows("SELECT * FROM benchmark_labels WHERE clip_id=?",(clip_id,))),None), "corrections": db.rows("SELECT * FROM corrections WHERE clip_id=? ORDER BY id DESC", (clip_id,)),
                 "proposals": db.rows("SELECT * FROM proposals WHERE clip_id=? ORDER BY id DESC", (clip_id,))}
 
     @app.post("/api/clips/{clip_id}/preview")

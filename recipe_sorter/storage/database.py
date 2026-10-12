@@ -36,17 +36,22 @@ PRAGMA user_version=1;
 
 class Database:
     def __init__(self, cache):
+        self.cache = cache
         self.path = cache.path("library.sqlite3")
         with self.connect() as db:
             db.execute("PRAGMA journal_mode=WAL")
             version = db.execute("PRAGMA user_version").fetchone()[0]
-            if version > 2:
+            if version > 3:
                 raise RuntimeError("Database was created by a newer Recipe Clip Sorter")
             if version == 0:
                 db.executescript(SCHEMA)
             if version < 2:
                 from .migrations import migrate_v2
                 migrate_v2(db, cache.output('library.pre-v1.5.sqlite3'))
+                db.commit()  # Finish cache adoption before the next consistent backup.
+            if version < 3:
+                from .migrations import migrate_v3
+                migrate_v3(db, cache.output('library.pre-v1.6.sqlite3'))
 
     @contextmanager
     def connect(self):
@@ -75,7 +80,7 @@ class Database:
             old = db.execute("SELECT * FROM clips WHERE path=?", (str(path),)).fetchone()
             if old:
                 if old["fingerprint"] != fp:
-                    db.execute("UPDATE clips SET size=?,mtime_ns=?,fingerprint=?,metadata=NULL,status='discovered',error=NULL,sampling_version=NULL,analysis_version=NULL,preview=NULL,proposed_group=1,confidence=NULL,evidence=NULL WHERE id=?",
+                    db.execute("UPDATE clips SET size=?,mtime_ns=?,fingerprint=?,metadata=NULL,sorting_state='unsorted',status='discovered',error=NULL,sampling_version=NULL,analysis_version=NULL,preview=NULL,proposed_group=1,confidence=NULL,evidence=NULL WHERE id=?",
                                (stat.st_size, stat.st_mtime_ns, fp, old["id"]))
                     db.execute("DELETE FROM frames WHERE clip_id=?", (old["id"],))
                     db.execute("DELETE FROM embeddings WHERE clip_id=?", (old["id"],))
@@ -88,7 +93,7 @@ class Database:
         if not name or len(name) > 100 or name.casefold() == "uncertain":
             raise ValueError("Use a group name of 1–100 characters other than Uncertain")
         with self.connect() as db:
-            return db.execute("INSERT INTO groups(name,kind,created_at) VALUES(?,?,?)", (name, kind, now())).lastrowid
+            return db.execute("INSERT INTO groups(name,kind,created_at,generation) VALUES(?,?,?,(SELECT generation FROM sorting_state WHERE id=1))", (name, kind, now())).lastrowid
 
     def rename(self, group_id, name):
         name = name.strip()
@@ -109,23 +114,27 @@ class Database:
             if not db.execute("UPDATE groups SET deleted=1 WHERE id=? AND deleted=0", (group_id,)).rowcount:
                 raise ValueError("Group does not exist")
 
-    def assign(self, clip_ids, group_id, expected_revisions=None):
+    def assign(self, clip_ids, group_id, expected_revisions=None, confirm=False):
         with self.connect() as db:
             db.execute("BEGIN IMMEDIATE")
-            return self._assign(db, clip_ids, group_id, expected_revisions)
+            return self._assign(db, clip_ids, group_id, expected_revisions, reason="confirm" if confirm else "manual")
 
     def _assign(self, db, clip_ids, group_id, expected_revisions=None, reason="manual"):
         if not clip_ids:
             raise ValueError("Select at least one clip")
         if not db.execute("SELECT 1 FROM groups WHERE id=? AND deleted=0", (group_id,)).fetchone():
             raise ValueError("Group does not exist")
-        move = db.execute("INSERT INTO moves(created_at,reason) VALUES(?,?)", (now(), reason)).lastrowid
+        move = None
         for clip_id in sorted(set(clip_ids)):
             c = db.execute("SELECT * FROM clips WHERE id=?", (clip_id,)).fetchone()
             if c is None:
                 raise ValueError("Clip does not exist")
             if expected_revisions is not None and expected_revisions.get(str(clip_id)) != c["manual_revision"]:
                 raise ValueError("A clip was changed in another view. Refresh and try again.")
+            if reason == "manual" and (c["manual_group"] or c["proposed_group"] or 1) == group_id:
+                continue
+            if move is None:
+                move = db.execute("INSERT INTO moves(created_at,reason,generation) VALUES(?,?,(SELECT generation FROM sorting_state WHERE id=1))", (now(), reason)).lastrowid
             db.execute("INSERT INTO move_items VALUES(?,?,?,?,?)", (move, clip_id, c["manual_group"], c["manual_move_id"], group_id))
             self._correction(db, c, group_id, move, "move")
             db.execute("UPDATE clips SET manual_group=?,manual_move_id=?,manual_revision=manual_revision+1 WHERE id=?", (group_id, move, clip_id))
@@ -139,7 +148,7 @@ class Database:
     def undo(self, move_id):
         with self.connect() as db:
             db.execute("BEGIN IMMEDIATE")
-            move = db.execute("SELECT * FROM moves WHERE id=? AND undone_at IS NULL", (move_id,)).fetchone()
+            move = db.execute("SELECT * FROM moves WHERE id=? AND undone_at IS NULL AND generation=(SELECT generation FROM sorting_state WHERE id=1)", (move_id,)).fetchone()
             if not move:
                 raise ValueError("This move has already been undone or does not exist")
             items = db.execute("SELECT * FROM move_items WHERE move_id=?", (move_id,)).fetchall()
@@ -156,12 +165,12 @@ class Database:
             db.execute("UPDATE moves SET undone_at=? WHERE id=?", (now(), move_id))
             # Acceptance remains in history; append the explicit reversal.
             for d in db.execute("SELECT * FROM suggestion_decisions WHERE move_id=? AND decision='accepted'", (move_id,)).fetchall():
-                db.execute("INSERT INTO suggestion_decisions(suggestion_id,clip_id,group_id,fingerprint,backend,decision,move_id,created_at) VALUES(?,?,?,?,?,'undone',?,?)",
+                db.execute("INSERT INTO suggestion_decisions(suggestion_id,clip_id,group_id,fingerprint,backend,decision,move_id,created_at,generation) VALUES(?,?,?,?,?,'undone',?,?,(SELECT generation FROM sorting_state WHERE id=1))",
                            (d["suggestion_id"],d["clip_id"],d["group_id"],d["fingerprint"],d["backend"],move_id,now()))
                 db.execute("UPDATE suggestions SET status='undone' WHERE id=?", (d["suggestion_id"],))
 
     def latest_move(self):
-        rows = self.rows("SELECT id,created_at,reason FROM moves WHERE undone_at IS NULL ORDER BY id DESC LIMIT 1")
+        rows = self.rows("SELECT id,created_at,reason FROM moves WHERE undone_at IS NULL AND generation=(SELECT generation FROM sorting_state WHERE id=1) ORDER BY id DESC LIMIT 1")
         return rows[0] if rows else None
 
     def library(self):
@@ -175,4 +184,26 @@ class Database:
             c["evidence"] = json.loads(c["evidence"]) if c["evidence"] else {}
             c["group_id"] = c["manual_group"] or c["proposed_group"] or 1
             c["frames"] = grouped.get(c["id"], [])
-        return {"clips": clips, "last_move": self.latest_move(), "groups": self.rows("SELECT * FROM groups WHERE deleted=0 ORDER BY CASE WHEN id=1 THEN 1 ELSE 0 END,id")}
+        return {"sorting": self.sorting_state(), "analysis_summary": self.analysis_summary(), "clips": clips, "last_move": self.latest_move(), "groups": self.rows("SELECT * FROM groups WHERE deleted=0 ORDER BY CASE WHEN id=1 THEN 1 ELSE 0 END,id")}
+
+    def sorting_state(self, conn=None):
+        if conn is not None:
+            return dict(conn.execute('SELECT generation,revision FROM sorting_state WHERE id=1').fetchone())
+        return self.rows('SELECT generation,revision FROM sorting_state WHERE id=1')[0]
+
+    def require_generation(self, conn, generation):
+        if self.sorting_state(conn)['generation'] != generation:
+            raise ValueError('Sorting session changed. This old operation is inactive.')
+
+    def analysis_summary(self):
+        rows = self.rows('SELECT id,version,summary FROM runs WHERE generation=(SELECT generation FROM sorting_state WHERE id=1) ORDER BY id DESC LIMIT 1')
+        return {**rows[0], 'summary':json.loads(rows[0]['summary'] or '{}')} if rows else None
+
+    def label(self, clip_id, recipe, session='', stage='', split=None):
+        recipe, session, stage = recipe.strip(), session.strip(), stage.strip()
+        if not recipe or max(map(len,(recipe,session,stage))) > 150 or split not in (None,'example','calibration','evaluation'):
+            raise ValueError('Use a recipe label of 1–150 characters and a valid benchmark split')
+        with self.connect() as conn:
+            c=conn.execute('SELECT fingerprint FROM clips WHERE id=?',(clip_id,)).fetchone()
+            if not c: raise ValueError('Clip does not exist')
+            conn.execute('INSERT OR REPLACE INTO benchmark_labels VALUES(?,?,?,?,?,?,?)',(clip_id,recipe,session,stage,split,c['fingerprint'],now()))

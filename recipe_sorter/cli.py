@@ -19,7 +19,10 @@ def main():
     analyze = sub.add_parser('analyze')
     analyze.add_argument('--backend', choices=['clip', 'features', 'hybrid'], default='features')
     analyze.add_argument('--force', action='store_true')
-    analyze.add_argument('--sampling', choices=['uniform','adaptive'], default='uniform')
+    analyze.add_argument('--sampling', choices=['uniform','adaptive','diverse'], default='uniform')
+    analyze.add_argument('--method', choices=['complete','guarded'], default='complete')
+    labels = sub.add_parser('benchmark-labels')
+    labels.add_argument('--from-groups', action='store_true', required=True)
     export = sub.add_parser('benchmark-export')
     export.add_argument('--prepare', action='store_true')
     export.add_argument('--backends', nargs='+', choices=['clip','features'], default=['clip','features'])
@@ -28,6 +31,7 @@ def main():
     bench = sub.add_parser('benchmark')
     bench.add_argument('--manifest', type=Path)
     bench.add_argument('--synthetic', action='store_true')
+    bench.add_argument('--suite', choices=['v15','v16'], default='v16')
     bench.add_argument('--output', default='benchmarks/results.json')
     bench.add_argument('--target-precision', type=float, default=.95)
     accept = sub.add_parser('braw-acceptance')
@@ -69,7 +73,12 @@ def main():
         if args.command == 'scan':
             service.scan(args.folder, not args.no_recursive)
         elif args.command == 'analyze':
-            service.analyze(args.backend, args.force, args.sampling)
+            service.analyze(args.backend, args.force, args.sampling, args.method)
+        elif args.command == 'benchmark-labels':
+            rows = db.rows('SELECT c.id,g.name FROM clips c JOIN groups g ON c.manual_group=g.id WHERE c.manual_group>1 AND c.demo=0')
+            for c in rows:db.label(c['id'],c['name'])
+            print(f'{len(rows)} independent benchmark labels saved from your manually confirmed groups. Review them before evaluating.')
+            return
         elif args.command == 'benchmark-export':
             from .analysis.evaluation import export_labels
             report = export_labels(service, args.backends, args.prepare, args.seed)
@@ -83,8 +92,10 @@ def main():
                 parser.error('Choose exactly one of --synthetic or --manifest')
             if not 0 < args.target_precision <= 1:
                 parser.error('--target-precision must be between 0 and 1')
-            data = synthetic_fixture() if args.synthetic else json.loads(args.manifest.read_text())
-            report = benchmark(data, args.target_precision)
+            from .analysis.comparison import benchmark_v16, stage_fixture
+            fixture = synthetic_fixture if args.suite=='v15' else stage_fixture
+            data = fixture() if args.synthetic else json.loads(args.manifest.read_text())
+            report = (benchmark if args.suite=='v15' else benchmark_v16)(data, args.target_precision)
             output = cache.output(args.output)
             output.write_text(json.dumps(report, indent=2))
             print(json.dumps(report, indent=2))

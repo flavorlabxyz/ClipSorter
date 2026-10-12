@@ -22,7 +22,7 @@ PROFILES = {'clip': Profile(.78, .04, .74), 'features': Profile(.90, .035, .86),
 
 def valid_vectors(values):
     v = np.asarray(values, dtype=np.float32)
-    if v.ndim != 2 or len(v) < 2 or v.shape[1] < 2 or not np.isfinite(v).all() or np.any(np.linalg.norm(v, axis=1) < 1e-8):
+    if v.ndim != 2 or len(v) < 2 or v.shape[1] < 2 or not np.isfinite(v).all() or (not np.isfinite(np.linalg.norm(v,axis=1)).all() or np.any(np.linalg.norm(v, axis=1) < 1e-8)):
         raise ValueError('Invalid frame embeddings: need at least two finite nonzero vectors')
     return unit(v)
 

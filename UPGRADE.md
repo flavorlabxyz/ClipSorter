@@ -1,3 +1,5 @@
+> Historical V1.5 documentation. See [V1_6.md](V1_6.md) and [V1_6_EVALUATION.md](V1_6_EVALUATION.md) for the current release. To reproduce the old benchmark, add `--suite v15` to its `benchmark` commands.
+
 # V1.5: guided sorting
 
 V1.5 preserves the FastAPI application, plain JavaScript frontend, SQLite library, Fedora installation, and official-SDK BRAW bridge. Source paths remain read-only inputs. No cloud AI API or new runtime service is introduced.

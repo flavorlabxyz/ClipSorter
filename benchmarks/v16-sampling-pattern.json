@@ -1,0 +1,65 @@
+{
+  "source_name": "pattern.mp4",
+  "decoder": "ffmpeg",
+  "source_unchanged": true,
+  "before": {
+    "sha256": "11e2913db08292caf530d11772258ab4a74fd91b982276fac3a3046a7bb39b0b",
+    "size": 183064,
+    "mtime_ns": 1791833336444344121
+  },
+  "after": {
+    "sha256": "11e2913db08292caf530d11772258ab4a74fd91b982276fac3a3046a7bb39b0b",
+    "size": 183064,
+    "mtime_ns": 1791833336444344121
+  },
+  "results": [
+    {
+      "sampling": "uniform",
+      "retained_frames": 5,
+      "decode_calls": 5,
+      "seconds": [
+        0.4,
+        1.2,
+        2.0,
+        2.8,
+        3.6
+      ],
+      "elapsed_seconds": 0.7605756510020001,
+      "peak_python_allocated_bytes": 1242856,
+      "process_peak_rss_kib": 37212
+    },
+    {
+      "sampling": "adaptive",
+      "retained_frames": 6,
+      "decode_calls": 6,
+      "seconds": [
+        0.4,
+        1.2,
+        2.0,
+        2.8,
+        3.2,
+        3.6
+      ],
+      "elapsed_seconds": 0.8696369489989593,
+      "peak_python_allocated_bytes": 536278,
+      "process_peak_rss_kib": 39004
+    },
+    {
+      "sampling": "diverse",
+      "retained_frames": 6,
+      "decode_calls": 6,
+      "seconds": [
+        0.4,
+        1.2,
+        2.0,
+        2.8,
+        3.2,
+        3.6
+      ],
+      "elapsed_seconds": 0.7585579900005541,
+      "peak_python_allocated_bytes": 511403,
+      "process_peak_rss_kib": 39004
+    }
+  ],
+  "scope": "Independent cold sampling passes; image quality/coverage require human review. No inference or recipe accuracy measured. RSS is cumulative; Python allocations exclude some native memory."
+}
