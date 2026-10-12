@@ -65,3 +65,25 @@ test('drag cancellation removes feedback and prevents a later accidental drop',a
  root.handlers.dragstart(event(node({dragClip:'1'})));root.handlers.dragend();
  await root.handlers.drop(event(node({dropGroup:'3'})));assert.equal(f.calls.length,0);assert.equal(root.body.classList.contains('is-dragging'),false);
 });
+test('same-group no-op retains selection and announces no change',async()=>{
+ const f=fixture();const c=createController({getState:()=>f.state,api:async()=>({moved:0,move_id:null}),refresh:async()=>{},announce:m=>f.messages.push(m)});
+ await c.move([1,2],3);assert.equal(f.state.selected.size,2);assert.match(f.messages[0],/Nothing changed/);
+});
+test('explicit same-group confirmation is separate from a drag move',async()=>{
+ const f=fixture();await f.controller.move([1],3,true);assert.equal(f.calls[0][2].confirm,true);assert.match(f.messages[0],/confirmed/);
+});
+test('drag count and hidden selections are announced and shown in the native ghost',()=>{
+ const f=fixture(),root=dragRoot();f.state.visibleIds=[1];let ghost;
+ root.createElement=()=>({remove(){}});root.body.append=e=>ghost=e;
+ bindDrag(root,{getState:()=>f.state,controller:f.controller,announce:m=>f.messages.push(m),onError:()=>{}});
+ const start=event(node({dragClip:'1'}));start.dataTransfer.setDragImage=()=>{};root.handlers.dragstart(start);
+ assert.match(f.messages[0],/2 clips.*1 hidden/);assert.equal(ghost.textContent,'2 clips · 1 hidden');root.handlers.dragend();
+});
+test('a deleted destination cannot receive a drop',async()=>{
+ const f=fixture(),root=dragRoot();f.state.groups=[{id:1},{id:2}];bindDrag(root,{getState:()=>f.state,controller:f.controller,announce:()=>{},onError:()=>{}});
+ root.handlers.dragstart(event(node({dragClip:'1'})));await root.handlers.drop(event(node({dropGroup:'4'})));assert.equal(f.calls.length,0);
+});
+test('refresh failure reports saved state without pretending the view succeeded',async()=>{
+ const f=fixture();const c=createController({getState:()=>f.state,api:async()=>({moved:1}),refresh:async()=>{throw Error('network');},announce:m=>f.messages.push(m)});
+ await assert.rejects(c.move([1],3),/change was saved.*Reload/);assert.equal(f.messages.length,0);
+});

@@ -127,19 +127,36 @@ def benchmark(data, target_precision=.95):
 
 
 def export_labels(service, backends=('clip','features'), prepare=False, seed=17):
-    clips=service.db.rows('SELECT * FROM clips WHERE manual_group>1 AND demo=0 ORDER BY id')
-    if not clips: raise ValueError('No manually labeled real clips. Assign recipe groups first.')
-    rng=random.Random(seed); splits={}
-    for group in sorted({c['manual_group'] for c in clips}):
-        ids=[c['id'] for c in clips if c['manual_group']==group];rng.shuffle(ids)
-        if len(ids)<5: raise ValueError('Label at least five clips per group for example/calibration/evaluation splits')
-        n_examples=max(2,len(ids)//3);n_calibration=max(1,len(ids)//4)
-        for i,cid in enumerate(ids):splits[cid]='example' if i<n_examples else 'calibration' if i<n_examples+n_calibration else 'evaluation'
+    clips=service.db.rows('SELECT c.*,l.recipe AS truth_recipe,l.session AS truth_session,l.stage AS truth_stage,l.split AS truth_split,l.fingerprint AS truth_fingerprint FROM clips c JOIN benchmark_labels l ON l.clip_id=c.id WHERE c.demo=0 ORDER BY c.id')
+    if not clips: raise ValueError('No independent benchmark labels. Save known recipe labels in clip details, or explicitly run benchmark-labels --from-groups.')
+    if any(c['fingerprint']!=c['truth_fingerprint'] for c in clips):raise ValueError('A labeled source changed. Review its benchmark truth before exporting.')
+    rng=random.Random(seed);splits={};warnings=[]
+    explicit=[c for c in clips if c['truth_split']]
+    sessions=sorted({c['truth_session'] for c in clips if c['truth_session']})
+    if explicit:
+        if len(explicit)!=len(clips):raise ValueError('Set splits for every labeled clip, or clear all explicit splits for an automatic split')
+        splits={c['id']:c['truth_split'] for c in clips}
+    elif len(sessions)>=3 and all(c['truth_session'] for c in clips):
+        rng.shuffle(sessions);cut=max(1,len(sessions)//3);cal=max(1,len(sessions)//3)
+        session_splits={s:'example' if i<cut else 'calibration' if i<cut+cal else 'evaluation' for i,s in enumerate(sessions)}
+        splits={c['id']:session_splits[c['truth_session']] for c in clips}
+    else:
+        warnings.append('Not enough complete filming-session labels for session separation; using clip-level stratification. Adjacent files can leak visual content.')
+        for group in sorted({c['truth_recipe'] for c in clips}):
+            ids=[c['id'] for c in clips if c['truth_recipe']==group];rng.shuffle(ids)
+            if len(ids)<5:raise ValueError('Label at least five clips per recipe, or explicitly set example/calibration/evaluation splits')
+            n_examples=max(2,len(ids)//3);n_calibration=max(1,len(ids)//4)
+            for i,cid in enumerate(ids):splits[cid]='example' if i<n_examples else 'calibration' if i<n_examples+n_calibration else 'evaluation'
+    for session in sessions:
+        if len({splits[c['id']] for c in clips if c['truth_session']==session})>1:warnings.append(f'Session spans splits: {session}')
     cache=EmbeddingCache(service.cache,service.db);started=time.perf_counter();result=[]
     for c in clips:
         if prepare:
-            c=service.prepare_frames(c,'adaptive' if c['sampling_version']=='adaptive-v1' else 'uniform')
-        item={"id":c['id'],'filename':c['filename'],'label':str(c['manual_group']),'split':splits[c['id']],
+            truth={k:v for k,v in c.items() if k.startswith('truth_')}
+            c={**service.prepare_frames(c,{'adaptive-v1':'adaptive','diverse-v1':'diverse'}.get(c['sampling_version'],'uniform')),**truth}
+            if c['fingerprint'] != c['truth_fingerprint']:
+                raise ValueError('A labeled source changed during preparation. Review its benchmark truth before exporting.')
+        item={"id":c['id'],'filename':c['filename'],'label':c['truth_recipe'],'split':splits[c['id']],'session':c['truth_session'],'stage':c['truth_stage'],
               'fingerprint':c['fingerprint'],'sampling_version':c['sampling_version'],'vectors':{},'versions':{}}
         for backend in backends:
             if prepare:
@@ -154,7 +171,7 @@ def export_labels(service, backends=('clip','features'), prepare=False, seed=17)
                         raise ValueError('Cached frame embeddings are incomplete; rebuild cached analysis')
                     item['vectors'][backend]=vectors.tolist();item['versions'][backend]=rows[0]['model_version']
         result.append(item)
-    return {'schema':1,'name':'Manually labeled local recipe groups','synthetic':False,'seed':seed,'clips':result,
+    return {'schema':1,'name':'Independent known-recipe labels','synthetic':False,'seed':seed,'warnings':warnings,'clips':result,
             'preparation':{'performed':prepare,'elapsed_seconds':time.perf_counter()-started,'cache':cache.stats,
                            'process_peak_rss_kib':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
                            'scope':'Sparse frame preparation and embedding generation/reuse' if prepare else 'Read cached vectors only'}}

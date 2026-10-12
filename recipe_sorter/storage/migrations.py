@@ -54,3 +54,35 @@ def migrate_v2(db, backup):
         db.execute("UPDATE clips SET sampling_version='sampling-v2' WHERE id=?", (clip['id'],))
         db.execute('INSERT OR IGNORE INTO embeddings VALUES(?,?,?,?,?,?,?,?)',
                    (clip['id'], backend, model, clip['fingerprint'], 'sampling-v2', json.dumps([r['id'] for r in rows]), json.dumps(vectors), clip['discovered_at']))
+
+
+def migrate_v3(db, backup):
+    if not backup.exists():
+        with sqlite3.connect(backup) as destination:
+            db.backup(destination)
+    db.executescript("""
+BEGIN EXCLUSIVE;
+CREATE TABLE sorting_state(id INTEGER PRIMARY KEY CHECK(id=1), generation INTEGER NOT NULL, revision INTEGER NOT NULL);
+INSERT INTO sorting_state VALUES(1,1,0);
+ALTER TABLE groups ADD COLUMN generation INTEGER NOT NULL DEFAULT 1;
+ALTER TABLE moves ADD COLUMN generation INTEGER NOT NULL DEFAULT 1;
+ALTER TABLE runs ADD COLUMN generation INTEGER NOT NULL DEFAULT 1;
+ALTER TABLE runs ADD COLUMN summary TEXT;
+ALTER TABLE recommendation_runs ADD COLUMN generation INTEGER NOT NULL DEFAULT 1;
+ALTER TABLE suggestion_decisions ADD COLUMN generation INTEGER NOT NULL DEFAULT 1;
+ALTER TABLE clips ADD COLUMN sorting_state TEXT NOT NULL DEFAULT 'unsorted';
+UPDATE clips SET sorting_state=CASE WHEN proposed_group<>1 THEN 'grouped' WHEN analysis_version IS NOT NULL THEN 'uncertain' ELSE 'unsorted' END;
+CREATE TABLE sorting_resets(id INTEGER PRIMARY KEY, created_at TEXT NOT NULL, before_generation INTEGER NOT NULL,
+ after_generation INTEGER NOT NULL, after_revision INTEGER NOT NULL, backup_path TEXT NOT NULL,
+ snapshot TEXT NOT NULL, restored_at TEXT, restore_backup TEXT);
+CREATE TABLE benchmark_labels(clip_id INTEGER PRIMARY KEY REFERENCES clips(id), recipe TEXT NOT NULL,
+ session TEXT NOT NULL DEFAULT '', stage TEXT NOT NULL DEFAULT '', split TEXT, fingerprint TEXT NOT NULL, updated_at TEXT NOT NULL);
+CREATE TRIGGER sorting_clip_insert AFTER INSERT ON clips BEGIN UPDATE sorting_state SET revision=revision+1 WHERE id=1; END;
+CREATE TRIGGER sorting_clip_update AFTER UPDATE OF manual_group,proposed_group,fingerprint ON clips BEGIN UPDATE sorting_state SET revision=revision+1 WHERE id=1; END;
+CREATE TRIGGER sorting_group_insert AFTER INSERT ON groups BEGIN UPDATE sorting_state SET revision=revision+1 WHERE id=1; END;
+CREATE TRIGGER sorting_group_update AFTER UPDATE ON groups BEGIN UPDATE sorting_state SET revision=revision+1 WHERE id=1; END;
+CREATE TRIGGER sorting_review_insert AFTER INSERT ON recommendation_runs BEGIN UPDATE sorting_state SET revision=revision+1 WHERE id=1; END;
+CREATE TRIGGER sorting_decision_insert AFTER INSERT ON suggestion_decisions BEGIN UPDATE sorting_state SET revision=revision+1 WHERE id=1; END;
+PRAGMA user_version=3;
+COMMIT;
+""")

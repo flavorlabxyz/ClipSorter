@@ -1,0 +1,673 @@
+{
+  "schema": 1,
+  "name": "Analytical multi-stage threads and unseen pan",
+  "synthetic": true,
+  "clips": [
+    {
+      "id": 1,
+      "label": "cake",
+      "split": "example",
+      "session": "example",
+      "stage": "stage 0",
+      "vectors": {
+        "clip": [
+          [
+            0.9961946980917455,
+            -0.08715574274765817,
+            0.0
+          ],
+          [
+            0.9961946980917455,
+            0.08715574274765817,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            0.9961946980917455,
+            -0.08715574274765817,
+            0.0
+          ],
+          [
+            0.9961946980917455,
+            0.08715574274765817,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 2,
+      "label": "cake",
+      "split": "example",
+      "session": "example",
+      "stage": "stage 36",
+      "vectors": {
+        "clip": [
+          [
+            0.8571673007021123,
+            0.5150380749100542,
+            0.0
+          ],
+          [
+            0.754709580222772,
+            0.6560590289905073,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            0.8571673007021123,
+            0.5150380749100542,
+            0.0
+          ],
+          [
+            0.754709580222772,
+            0.6560590289905073,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 3,
+      "label": "cake",
+      "split": "calibration",
+      "session": "calibration",
+      "stage": "stage 0",
+      "vectors": {
+        "clip": [
+          [
+            0.9961946980917455,
+            -0.08715574274765817,
+            0.0
+          ],
+          [
+            0.9961946980917455,
+            0.08715574274765817,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            0.9961946980917455,
+            -0.08715574274765817,
+            0.0
+          ],
+          [
+            0.9961946980917455,
+            0.08715574274765817,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 4,
+      "label": "cake",
+      "split": "calibration",
+      "session": "calibration",
+      "stage": "stage 18",
+      "vectors": {
+        "clip": [
+          [
+            0.9743700647852352,
+            0.224951054343865,
+            0.0
+          ],
+          [
+            0.9205048534524404,
+            0.39073112848927377,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            0.9743700647852352,
+            0.224951054343865,
+            0.0
+          ],
+          [
+            0.9205048534524404,
+            0.39073112848927377,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 5,
+      "label": "cake",
+      "split": "calibration",
+      "session": "calibration",
+      "stage": "stage 36",
+      "vectors": {
+        "clip": [
+          [
+            0.8571673007021123,
+            0.5150380749100542,
+            0.0
+          ],
+          [
+            0.754709580222772,
+            0.6560590289905073,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            0.8571673007021123,
+            0.5150380749100542,
+            0.0
+          ],
+          [
+            0.754709580222772,
+            0.6560590289905073,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 6,
+      "label": "cake",
+      "split": "evaluation",
+      "session": "evaluation",
+      "stage": "stage 0",
+      "vectors": {
+        "clip": [
+          [
+            0.9961946980917455,
+            -0.08715574274765817,
+            0.0
+          ],
+          [
+            0.9961946980917455,
+            0.08715574274765817,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            0.9961946980917455,
+            -0.08715574274765817,
+            0.0
+          ],
+          [
+            0.9961946980917455,
+            0.08715574274765817,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 7,
+      "label": "cake",
+      "split": "evaluation",
+      "session": "evaluation",
+      "stage": "stage 18",
+      "vectors": {
+        "clip": [
+          [
+            0.9743700647852352,
+            0.224951054343865,
+            0.0
+          ],
+          [
+            0.9205048534524404,
+            0.39073112848927377,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            0.9743700647852352,
+            0.224951054343865,
+            0.0
+          ],
+          [
+            0.9205048534524404,
+            0.39073112848927377,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 8,
+      "label": "cake",
+      "split": "evaluation",
+      "session": "evaluation",
+      "stage": "stage 36",
+      "vectors": {
+        "clip": [
+          [
+            0.8571673007021123,
+            0.5150380749100542,
+            0.0
+          ],
+          [
+            0.754709580222772,
+            0.6560590289905073,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            0.8571673007021123,
+            0.5150380749100542,
+            0.0
+          ],
+          [
+            0.754709580222772,
+            0.6560590289905073,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 9,
+      "label": "rolls",
+      "split": "example",
+      "session": "example",
+      "stage": "stage 0",
+      "vectors": {
+        "clip": [
+          [
+            -0.9961946980917455,
+            0.0871557427476582,
+            0.0
+          ],
+          [
+            -0.9961946980917455,
+            -0.08715574274765794,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            -0.9961946980917455,
+            0.0871557427476582,
+            0.0
+          ],
+          [
+            -0.9961946980917455,
+            -0.08715574274765794,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 10,
+      "label": "rolls",
+      "split": "example",
+      "session": "example",
+      "stage": "stage 36",
+      "vectors": {
+        "clip": [
+          [
+            -0.8571673007021123,
+            -0.5150380749100542,
+            0.0
+          ],
+          [
+            -0.7547095802227721,
+            -0.656059028990507,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            -0.8571673007021123,
+            -0.5150380749100542,
+            0.0
+          ],
+          [
+            -0.7547095802227721,
+            -0.656059028990507,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 11,
+      "label": "rolls",
+      "split": "calibration",
+      "session": "calibration",
+      "stage": "stage 0",
+      "vectors": {
+        "clip": [
+          [
+            -0.9961946980917455,
+            0.0871557427476582,
+            0.0
+          ],
+          [
+            -0.9961946980917455,
+            -0.08715574274765794,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            -0.9961946980917455,
+            0.0871557427476582,
+            0.0
+          ],
+          [
+            -0.9961946980917455,
+            -0.08715574274765794,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 12,
+      "label": "rolls",
+      "split": "calibration",
+      "session": "calibration",
+      "stage": "stage 18",
+      "vectors": {
+        "clip": [
+          [
+            -0.9743700647852352,
+            -0.22495105434386498,
+            0.0
+          ],
+          [
+            -0.9205048534524404,
+            -0.39073112848927355,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            -0.9743700647852352,
+            -0.22495105434386498,
+            0.0
+          ],
+          [
+            -0.9205048534524404,
+            -0.39073112848927355,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 13,
+      "label": "rolls",
+      "split": "calibration",
+      "session": "calibration",
+      "stage": "stage 36",
+      "vectors": {
+        "clip": [
+          [
+            -0.8571673007021123,
+            -0.5150380749100542,
+            0.0
+          ],
+          [
+            -0.7547095802227721,
+            -0.656059028990507,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            -0.8571673007021123,
+            -0.5150380749100542,
+            0.0
+          ],
+          [
+            -0.7547095802227721,
+            -0.656059028990507,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 14,
+      "label": "rolls",
+      "split": "evaluation",
+      "session": "evaluation",
+      "stage": "stage 0",
+      "vectors": {
+        "clip": [
+          [
+            -0.9961946980917455,
+            0.0871557427476582,
+            0.0
+          ],
+          [
+            -0.9961946980917455,
+            -0.08715574274765794,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            -0.9961946980917455,
+            0.0871557427476582,
+            0.0
+          ],
+          [
+            -0.9961946980917455,
+            -0.08715574274765794,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 15,
+      "label": "rolls",
+      "split": "evaluation",
+      "session": "evaluation",
+      "stage": "stage 18",
+      "vectors": {
+        "clip": [
+          [
+            -0.9743700647852352,
+            -0.22495105434386498,
+            0.0
+          ],
+          [
+            -0.9205048534524404,
+            -0.39073112848927355,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            -0.9743700647852352,
+            -0.22495105434386498,
+            0.0
+          ],
+          [
+            -0.9205048534524404,
+            -0.39073112848927355,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 16,
+      "label": "rolls",
+      "split": "evaluation",
+      "session": "evaluation",
+      "stage": "stage 36",
+      "vectors": {
+        "clip": [
+          [
+            -0.8571673007021123,
+            -0.5150380749100542,
+            0.0
+          ],
+          [
+            -0.7547095802227721,
+            -0.656059028990507,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            -0.8571673007021123,
+            -0.5150380749100542,
+            0.0
+          ],
+          [
+            -0.7547095802227721,
+            -0.656059028990507,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 17,
+      "label": "unknown-pan",
+      "split": "calibration",
+      "session": "calibration",
+      "stage": "unseen lookalike",
+      "vectors": {
+        "clip": [
+          [
+            0.08715574274765814,
+            0.9961946980917455,
+            0.0
+          ],
+          [
+            -0.08715574274765824,
+            0.9961946980917455,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            0.08715574274765814,
+            0.9961946980917455,
+            0.0
+          ],
+          [
+            -0.08715574274765824,
+            0.9961946980917455,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    },
+    {
+      "id": 18,
+      "label": "unknown-pan",
+      "split": "evaluation",
+      "session": "evaluation",
+      "stage": "unseen lookalike",
+      "vectors": {
+        "clip": [
+          [
+            0.08715574274765814,
+            0.9961946980917455,
+            0.0
+          ],
+          [
+            -0.08715574274765824,
+            0.9961946980917455,
+            0.0
+          ]
+        ],
+        "features": [
+          [
+            0.08715574274765814,
+            0.9961946980917455,
+            0.0
+          ],
+          [
+            -0.08715574274765824,
+            0.9961946980917455,
+            0.0
+          ]
+        ]
+      },
+      "versions": {
+        "clip": "analytical-stage-v1",
+        "features": "analytical-stage-v1"
+      }
+    }
+  ]
+}

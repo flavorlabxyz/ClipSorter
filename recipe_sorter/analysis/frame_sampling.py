@@ -54,3 +54,18 @@ def adaptive_frames(decoder, source, metadata):
             except Exception:
                 pass  # Keep the already usable base samples.
     return sorted(samples, key=lambda s: s[1])
+
+
+def diverse_frames(decoder, source, metadata):
+    """Reuse the bounded adaptive pool; keep temporal anchors plus diverse views."""
+    from .embeddings import VisualFeatures
+    pool=adaptive_frames(decoder,source,metadata)
+    if len(pool)<=5:return pool
+    vectors=VisualFeatures().encode([s[2] for s in pool])
+    selected=sorted({0,len(pool)//2,len(pool)-1})
+    while len(selected)<min(7,len(pool)):
+        remaining=[i for i in range(len(pool)) if i not in selected]
+        choice=min(remaining,key=lambda i:(float(max(vectors[i]@vectors[selected].T)),i))
+        if len(selected)>=5 and max(vectors[choice]@vectors[selected].T)>=.995:break
+        selected.append(choice)
+    return [pool[i] for i in sorted(selected)]

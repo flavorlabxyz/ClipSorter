@@ -15,7 +15,9 @@ class Recommendations:
     def __init__(self, service):
         self.service, self.db, self.cache = service, service.db, service.cache
 
-    def build(self, group_id, backend='clip', example_ids=None):
+    def build(self, group_id, backend='clip', example_ids=None, method='bank'):
+        generation = self.db.sorting_state()['generation']
+        if method not in ('bank','prototypes'): raise ValueError('Unknown matching method')
         if backend not in ('clip','features','hybrid'):
             raise ValueError('Select CLIP, visual features, or experimental hybrid')
         with self.db.connect() as conn:
@@ -46,7 +48,7 @@ class Recommendations:
                             conn.execute("UPDATE clips SET sampling_version='demo-v1' WHERE id=?", (c['id'],))
                         c = self.db.get_clip(c['id'])
                 else:
-                    strategy = 'adaptive' if c['sampling_version'] == 'adaptive-v1' else 'uniform'
+                    strategy = {'adaptive-v1':'adaptive','diverse-v1':'diverse'}.get(c['sampling_version'],'uniform')
                     c = self.service.prepare_frames(c, strategy)
                 item = cache.item(c, backend)
                 if not c['demo']:
@@ -75,9 +77,11 @@ class Recommendations:
         if any(len(v) > 1 for v in versions.values()):
             raise ValueError('Mixed model versions in the cache. Re-run analysis with the current installed model.')
         with self.db.connect() as conn:
-            negatives = {(r['clip_id'], r['fingerprint']) for r in conn.execute("SELECT clip_id,fingerprint FROM suggestion_decisions WHERE group_id=? AND backend=? AND decision='rejected'", (group_id,backend))}
+            negatives = {(r['clip_id'], r['fingerprint']) for r in conn.execute("SELECT clip_id,fingerprint FROM suggestion_decisions WHERE group_id=? AND backend=? AND decision='rejected' AND generation=?", (group_id,backend,generation))}
         pool = [c for c in pool if (c['id'],c['fingerprint']) not in negatives]
-        ranked = [r for r in rank_candidates(groups, pool, backend) if r['group_id'] == group_id]
+        from ..analysis.prototypes import rank_prototypes
+        scorer = rank_candidates if method == 'bank' else rank_prototypes
+        ranked = [r for r in scorer(groups, pool, backend) if r['group_id'] == group_id]
         all_items = {item['id']: item for item in pool + [e for values in groups.values() for e in values]}
         for r in ranked:
             for support in r['evidence']['support']:
@@ -86,18 +90,19 @@ class Recommendations:
                                example_frame_id=example['frames'][support['example_frame']]['id'],
                                candidate_seconds=candidate['frames'][support['candidate_frame']]['seconds'],
                                example_seconds=example['frames'][support['example_frame']]['seconds'])
-        context = {'members': members, 'examples': {str(e['id']): snapshots[e['id']] for values in groups.values() for e in values}, 'backends': backends,
+        context = {'generation':generation,'method':method,'members': members, 'examples': {str(e['id']): snapshots[e['id']] for values in groups.values() for e in values}, 'backends': backends,
                    'versions': {k: sorted(v) for k,v in versions.items()}, 'selected_example_ids': sorted(selected)}
         summary = {'ranked': len(ranked), 'suggested': sum(r['evidence']['label']=='suggested' for r in ranked),
                    'ambiguous': sum(r['evidence']['label']=='ambiguous' for r in ranked), 'cache': cache.stats,
                    'examples': len(selected), 'errors': self.service.snapshot()['errors']}
         with self.db.connect() as conn:
             conn.execute('BEGIN IMMEDIATE')
+            self.db.require_generation(conn, generation)
             if membership(conn) != members:
                 raise ValueError('Example assignments changed while comparing. Find matches again.')
             self._check_examples(conn, context)
-            run = conn.execute('INSERT INTO recommendation_runs(created_at,group_id,backend,version,context,summary) VALUES(?,?,?,?,?,?)',
-                               (now(),group_id,backend,VERSION,json.dumps(context),json.dumps(summary))).lastrowid
+            run = conn.execute('INSERT INTO recommendation_runs(created_at,group_id,backend,version,context,summary,generation) VALUES(?,?,?,?,?,?,?)',
+                               (now(),group_id,backend,VERSION+":"+method,json.dumps(context),json.dumps(summary),generation)).lastrowid
             conn.execute("UPDATE suggestions SET status='superseded' WHERE group_id=? AND status IN ('pending','skipped')", (group_id,))
             for r in ranked:
                 conn.execute('INSERT INTO suggestions(run_id,clip_id,group_id,score,evidence,snapshot) VALUES(?,?,?,?,?,?)',
@@ -115,7 +120,7 @@ class Recommendations:
     def queue(self, group_id, status='pending'):
         if status not in ('pending','skipped','accepted','rejected','undone'):
             raise ValueError('Unknown suggestion status')
-        rows = self.db.rows('SELECT * FROM recommendation_runs WHERE group_id=? ORDER BY id DESC LIMIT 1', (group_id,))
+        rows = self.db.rows('SELECT * FROM recommendation_runs WHERE group_id=? AND generation=(SELECT generation FROM sorting_state WHERE id=1) ORDER BY id DESC LIMIT 1', (group_id,))
         if not rows:
             return {'run': None, 'suggestions': []}
         run = rows[0]
@@ -153,6 +158,7 @@ class Recommendations:
             if not s or s['status'] not in ('pending','skipped'):
                 raise ValueError('Suggestion already reviewed or superseded. Refresh the queue.')
             run = conn.execute('SELECT * FROM recommendation_runs WHERE id=?', (s['run_id'],)).fetchone()
+            self.db.require_generation(conn, run['generation'])
             context = json.loads(run['context'])
             if not self._compatible_members(conn, context, run['id']):
                 raise ValueError('Example groups changed. Find matches again.')
@@ -172,7 +178,7 @@ class Recommendations:
                         except OSError as exc:
                             raise ValueError('Source is offline. Reconnect before accepting this suggestion.') from exc
             move = self.db._assign(conn,[s['clip_id']],s['group_id'],reason='recommendation') if decision=='accepted' else None
-            conn.execute('INSERT INTO suggestion_decisions(suggestion_id,clip_id,group_id,fingerprint,backend,decision,move_id,created_at) VALUES(?,?,?,?,?,?,?,?)',
-                         (s['id'],s['clip_id'],s['group_id'],expected['fingerprint'],run['backend'],decision,move,now()))
+            conn.execute('INSERT INTO suggestion_decisions(suggestion_id,clip_id,group_id,fingerprint,backend,decision,move_id,created_at,generation) VALUES(?,?,?,?,?,?,?,?,?)',
+                         (s['id'],s['clip_id'],s['group_id'],expected['fingerprint'],run['backend'],decision,move,now(),run['generation']))
             conn.execute('UPDATE suggestions SET status=? WHERE id=?',(decision,s['id']))
             return {'saved': True, 'move_id': move}

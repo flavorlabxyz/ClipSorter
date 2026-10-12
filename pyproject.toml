@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "recipe-clip-sorter"
-version = "0.1.5"
+version = "0.1.6"
 description = "Local, source-safe recipe footage review and clustering"
 requires-python = ">=3.11"
 dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "numpy>=1.26,<3", "Pillow>=10,<13"]
